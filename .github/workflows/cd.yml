@@ -54,10 +54,11 @@ jobs:
     needs: [deploy-infra]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Trigger backend rollout
-        uses: Consensys/kubernetes-action@master
+      - name: Kubernetes Action
+        uses: Consensys/kubernetes-action@1.1.0
+
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
         with:
