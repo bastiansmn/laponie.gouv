@@ -43,8 +43,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Trigger deploy
-        uses: Consensys/kubernetes-action@master
+      - name: Kubernetes Action with Python 2.x fixes
+        uses: davi020/kubernetes-action@V1
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
         with:
@@ -56,8 +56,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Kubernetes kubectl Action without aws
-        uses: fno/kubernetes-action-no-aws@master
+      - name: Kubernetes Action with Python 2.x fixes
+        uses: davi020/kubernetes-action@V1
 
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
