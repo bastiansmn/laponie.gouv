@@ -56,8 +56,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Kubernetes Action
-        uses: Consensys/kubernetes-action@1.1.0
+      - name: Kubernetes Action with Python 2.x fixes
+        uses: davi020/kubernetes-action@V1
 
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
