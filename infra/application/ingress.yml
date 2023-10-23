@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: laponie-gouv-ingress
+  namespace: laponie-gouv
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: laponie-gouv.bastian-somon.fr
+      http:
+        paths:
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service: 
+                name: laponie-gouv-backend
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: laponie-gouv-frontend
+                port:
+                  number: 80

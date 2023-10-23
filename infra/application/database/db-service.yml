@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: laponie-gouv-db # Sets service name
+  labels:
+    app: laponie-gouv-db # Labels and Selectors
+spec:
+  type: ClusterIP # Sets service type
+  ports:
+    - port: 5432
+      name: http
+  selector:
+    app: db

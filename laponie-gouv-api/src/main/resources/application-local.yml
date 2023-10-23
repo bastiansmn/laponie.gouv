@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/laponie-gouv
+    username: postgres
+    password: root
+
+  mail:
+    host: localhost
+    port: 1026
+    username:
+    password:
