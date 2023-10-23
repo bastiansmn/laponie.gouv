@@ -22,6 +22,7 @@ jobs:
 
       - name: Login and push to container registry
         run: |
+          docker login 
           docker build -t bastiansmn/laponie-gouv:backend laponie-gouv-api
           docker push bastiansmn/laponie-gouv:backend
 
@@ -32,6 +33,7 @@ jobs:
 
       - name: Login and push to container registry
         run: |
+          docker login
           docker build -t bastiansmn/laponie-gouv:frontend laponie-gouv-client
           docker push bastiansmn/laponie-gouv:frontend
 
