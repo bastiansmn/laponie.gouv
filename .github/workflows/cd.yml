@@ -54,7 +54,7 @@ jobs:
     needs: [deploy-infra]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Trigger backend rollout
         uses: Consensys/kubernetes-action@master
