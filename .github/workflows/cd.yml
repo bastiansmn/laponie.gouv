@@ -61,10 +61,10 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
         with:
-          args: rollout restart deployment spring -n vp
+          args: rollout restart deployment spring -n laponie-gouv
       - name: Trigger frontend rollout
         uses: Consensys/kubernetes-action@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
         with:
-          args: rollout restart deployment nginx -n vp
+          args: rollout restart deployment nginx -n laponie-gouv

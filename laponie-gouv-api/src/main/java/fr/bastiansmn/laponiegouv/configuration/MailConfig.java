@@ -36,7 +36,7 @@ public class MailConfig {
     @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
     private String starttls;
 
-    @Value("${spring.profiles.active}")
+    @Value("${spring.profiles.active:}")
     private String profile;
 
     @Bean
