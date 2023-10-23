@@ -1,4 +1,4 @@
-name: VP CD
+name: LaponieGouv CD
 
 on:
   push:
@@ -22,9 +22,8 @@ jobs:
 
       - name: Login and push to container registry
         run: |
-          echo ${{ secrets.REGISTRY_PASS }} | docker login registry.bastian-somon.fr -u ${{ secrets.REGISTRY_USER }} --password-stdin
-          docker build -t registry.bastian-somon.fr/laponie-gouv-backend:latest laponie-gouv-api
-          docker push registry.bastian-somon.fr/laponie-gouv-backend:latest
+          docker build -t bastiansmn/laponie-gouv:backend laponie-gouv-api
+          docker push bastiansmn/laponie-gouv:backend
 
   build-client:
     runs-on: ubuntu-latest
@@ -33,9 +32,8 @@ jobs:
 
       - name: Login and push to container registry
         run: |
-          echo ${{ secrets.REGISTRY_PASS }} | docker login registry.bastian-somon.fr -u ${{ secrets.REGISTRY_USER }} --password-stdin
-          docker build -t registry.bastian-somon.fr/laponie-gouv-frontend:latest laponie-gouv-ui
-          docker push registry.bastian-somon.fr/laponie-gouv-frontend:latest
+          docker build -t bastiansmn/laponie-gouv:frontend laponie-gouv-client
+          docker push bastiansmn/laponie-gouv:frontend
 
   deploy-infra:
     needs: [build-server, build-client]

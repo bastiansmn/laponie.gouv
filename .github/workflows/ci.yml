@@ -1,4 +1,4 @@
-name: VP CI
+name: LaponieGouv CI
 
 on:
   push:
