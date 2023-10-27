@@ -14,10 +14,12 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: bastiansmn/laponie-gouv:frontend
+          image: registry.bastian-somon.fr/laponie-gouv-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
           envFrom:
           - secretRef:
               name: laponie-gouv-secret
+      imagePullSecrets:
+        - name: registry-creds

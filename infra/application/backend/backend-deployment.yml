@@ -14,10 +14,12 @@ spec:
     spec:
       containers:
         - name: spring
-          image: bastiansmn/laponie-gouv:backend
+          image: registry.bastian-somon.fr/laponie-gouv-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
           envFrom:
           - secretRef:
               name: laponie-gouv-secret
+      imagePullSecrets:
+        - name: registry-creds
