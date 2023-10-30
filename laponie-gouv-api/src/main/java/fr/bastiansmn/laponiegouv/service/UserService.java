@@ -3,10 +3,14 @@ package fr.bastiansmn.laponiegouv.service;
 import fr.bastiansmn.laponiegouv.dto.UserCreationDto;
 import fr.bastiansmn.laponiegouv.exception.FunctionalException;
 import fr.bastiansmn.laponiegouv.exception.FunctionalRule;
+import fr.bastiansmn.laponiegouv.model.Family;
 import fr.bastiansmn.laponiegouv.model.User;
+import fr.bastiansmn.laponiegouv.model.Wish;
 import fr.bastiansmn.laponiegouv.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +26,20 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUserByUuid(Long id) throws FunctionalException {
+    public List<Wish> getUserWishes(Long id) throws FunctionalException {
         return userRepository.findById(id)
+                .orElseThrow(() -> new FunctionalException(FunctionalRule.USER_0001))
+                .getWishes();
+    }
+
+    public User getByMail(String mail) throws FunctionalException {
+        return userRepository.findByEmail(mail)
                 .orElseThrow(() -> new FunctionalException(FunctionalRule.USER_0001));
     }
 
+    public List<Family> getUsersFamilies(Long id) throws FunctionalException {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new FunctionalException(FunctionalRule.USER_0001))
+                .getFamily();
+    }
 }

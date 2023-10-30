@@ -1,0 +1,7 @@
+<mat-list>
+  <mat-list-item *ngFor="let family of families">
+    <a [routerLink]="'/family/' + family.id">
+      {{ family.name }}
+    </a>
+  </mat-list-item>
+</mat-list>

@@ -1,0 +1,35 @@
+.family {
+  height: 100vh;
+  width: 100%;
+}
+
+.family mat-sidenav {
+  width: 25%;
+  max-width: 300px;
+}
+
+.family mat-sidenav div {
+  padding: .3rem;
+  margin-bottom: .3rem;
+}
+
+.family mat-sidenav div > button {
+  width: 100%;
+}
+
+.family mat-sidenav-content {
+  --padding: 1rem;
+  width: calc(75% - 2 * var(--padding));
+  padding: var(--padding);
+}
+
+.addWishForm {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.addWishForm > mat-form-field {
+  width: 90%;
+}
+

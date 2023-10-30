@@ -1,0 +1,34 @@
+<div class="form__background">
+  <div class="form" [formGroup]="authForm">
+    <h1>
+      Connexion
+    </h1>
+
+    <p>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input [errorStateMatcher]="matcher" matInput formControlName="email">
+      </mat-form-field>
+
+      <mat-error *ngIf="authForm.get('email')?.hasError('required') && authForm.get('email')?.dirty">
+        Le mail est <strong>requis</strong>
+      </mat-error>
+
+      <mat-error *ngIf="authForm.get('email')?.hasError('email') && authForm.get('email')?.dirty">
+        Le mail n'est pas valide
+      </mat-error>
+    </p>
+
+    <p>
+      <small>
+        Même si vous n'avez pas créé de compte, entrez une adresse mail et vous pourrez accéder à l'application.
+      </small>
+    </p>
+
+    <p style="display: flex">
+      <button (click)="handleConnection()" mat-flat-button color="primary">
+        Se connecter
+      </button>
+    </p>
+  </div>
+</div>

@@ -10,3 +10,8 @@
   right: 0;
   background: #eee;
 }
+
+header {
+  position: sticky;
+  top: 0;
+}

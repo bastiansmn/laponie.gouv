@@ -3,7 +3,6 @@ package fr.bastiansmn.laponiegouv.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity

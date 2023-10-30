@@ -38,6 +38,9 @@ public class FamilyService {
         User savedUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new FunctionalException(FunctionalRule.USER_0001));
 
+        if (family.getUsers().contains(savedUser))
+            throw new FunctionalException(FunctionalRule.FAMILY_0003);
+
         family.getUsers().add(savedUser);
         return familyRepository.save(family);
     }

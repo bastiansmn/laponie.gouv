@@ -1,12 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {AuthComponent} from "./components/auth/auth.component";
+import {FamilyListComponent} from "./components/main/family-list/family-list.component";
+import {FamilyComponent} from "./components/main/family/family.component";
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'prefix'
+    redirectTo: '/home',
+    pathMatch: 'full'
   },
+  {
+    path: 'home',
+    component: FamilyListComponent,
+  },
+  {
+    path: 'family/:id',
+    component: FamilyComponent
+  },
+  {
+    path: 'auth',
+    component: AuthComponent
+  }
 ];
 
 @NgModule({

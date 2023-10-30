@@ -1,0 +1,27 @@
+.form__background {
+  height: 100vh;
+  width: 100vw;
+
+  display: grid;
+  place-items: center;
+
+  background: #eeeeee;
+}
+
+.form {
+  width: 80vw;
+  max-width: 400px;
+
+  background: white;
+  padding: 1rem;
+
+  border-radius: 4px;
+}
+
+.form mat-form-field {
+  width: 100%;
+}
+
+.form button {
+  margin-left: auto;
+}

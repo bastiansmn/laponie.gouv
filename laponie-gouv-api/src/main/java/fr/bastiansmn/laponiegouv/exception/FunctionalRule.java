@@ -7,7 +7,9 @@ public enum FunctionalRule {
 
     FAMILY_0001("FAMILY_0001", "La famille n'existe pas"),
     FAMILY_0002("FAMILY_0002", "L'utilisateur n'existe pas dans la famille."),
-    USER_0001("USER_0001", "L'utilisateur n'existe pas")
+    FAMILY_0003("FAMILY_0003", "L'utilisateur est déjà dans la famille"),
+    USER_0001("USER_0001", "L'utilisateur n'existe pas"),
+    WISH_0001("WISH_0001", "Le cadeau n'existe pas"),
     ;
 
     private final String name;

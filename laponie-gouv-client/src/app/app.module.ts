@@ -10,12 +10,22 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { MainComponent } from './components/main/main.component';
+import { AuthComponent } from './components/auth/auth.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
+import {HttpClientModule} from "@angular/common/http";
+import { FamilyListComponent } from './components/main/family-list/family-list.component';
+import {MatListModule} from "@angular/material/list";
+import { FamilyComponent } from './components/main/family/family.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    MainComponent
+    MainComponent,
+    AuthComponent,
+    FamilyListComponent,
+    FamilyComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +34,11 @@ import { MainComponent } from './components/main/main.component';
     MatIconModule,
     MatToolbarModule,
     MatButtonModule,
-    MatSidenavModule
+    MatSidenavModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    HttpClientModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

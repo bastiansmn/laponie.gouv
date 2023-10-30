@@ -1,0 +1,39 @@
+<mat-sidenav-container class="family">
+  <mat-sidenav mode="side" opened>
+    <div (click)="selectUser(user)" *ngFor="let user of family?.users">
+      <button *ngIf="user.email !== currentUser?.email" mat-stroked-button color="primary">
+        {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
+      </button>
+      <button *ngIf="user.email === currentUser?.email" mat-flat-button color="primary">
+        {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <mat-selection-list>
+      <mat-list-option color="primary" [selected]="wish.gifted" *ngFor="let wish of currentUser?.wishes">
+        <a target="_blank" (click)="$event.stopPropagation()" [href]="wish.link">{{ wish.link }}</a>
+      </mat-list-option>
+    </mat-selection-list>
+
+    <ng-container *ngIf="currentUser?.email === connectedUser?.email">
+      <h4>
+        Ajouter un cadeau
+      </h4>
+      <div class="addWishForm">
+        <ng-container [formGroup]="addWishForm">
+          <mat-form-field>
+            <mat-label>Lien du cadeau</mat-label>
+            <input [errorStateMatcher]="matcher" matInput placeholder="https://amazon.fr/..." formControlName="link">
+          </mat-form-field>
+          <button (click)="handleSubmitWish()" mat-icon-button color="primary">
+            <mat-icon>add</mat-icon>
+          </button>
+        </ng-container>
+      </div>
+    </ng-container>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
