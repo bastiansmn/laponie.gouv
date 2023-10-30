@@ -4,6 +4,7 @@ export interface Wish {
   id: number;
   link: string;
   gifted: boolean;
+  gifter?: string;
   name?: string;
   price?: number;
   comment?: string;

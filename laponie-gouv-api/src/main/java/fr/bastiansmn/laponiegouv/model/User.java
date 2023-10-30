@@ -26,7 +26,7 @@ public class User {
     @JsonIgnore
     private List<Family> family;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Wish> wishes;
 
     @Override

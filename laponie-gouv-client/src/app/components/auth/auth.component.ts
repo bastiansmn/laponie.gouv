@@ -27,6 +27,7 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.authForm = this._fb.group({
       email: this._fb.control('', [Validators.required, Validators.email]),
+      name: this._fb.control('', [Validators.required]),
     })
   }
 

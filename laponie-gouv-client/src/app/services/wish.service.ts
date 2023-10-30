@@ -15,15 +15,15 @@ export class WishService {
     return this.http.post<Wish>('/api/wish', wish)
   }
 
-  markAsGifted(wishID: number) {
-    return this.http.patch<Wish>(`/api/wish/gifted?id=${wishID}`, null)
+  markAsGifted(wishID: number, gifter: string) {
+    return this.http.patch<Wish>(`/api/wish/gifted?id=${wishID}&gifter=${gifter}`, null)
   }
 
   markAsNotGifted(wishID: number) {
     return this.http.patch<Wish>(`/api/wish/not-gifted?id=${wishID}`, null)
   }
 
-  deleteWish(wishID: number) {
-    return this.http.delete<void>(`/api/wish?id=${wishID}`)
+  deleteWish(wishID: number, userID?: number) {
+    return this.http.delete<void>(`/api/wish?id=${wishID}&userID=${userID}`)
   }
 }

@@ -27,6 +27,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getByMail(email));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> searchUser(@RequestParam String email) throws FunctionalException {
+        email = URLDecoder.decode(email, StandardCharsets.UTF_8);
+        return ResponseEntity.ok(userService.searchUser(email));
+    }
+
     @GetMapping("/families")
     public ResponseEntity<List<Family>> getUsersFamilies(@RequestParam Long id) throws FunctionalException {
         return ResponseEntity.ok(userService.getUsersFamilies(id));

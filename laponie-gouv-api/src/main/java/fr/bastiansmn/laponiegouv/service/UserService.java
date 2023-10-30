@@ -42,4 +42,8 @@ public class UserService {
                 .orElseThrow(() -> new FunctionalException(FunctionalRule.USER_0001))
                 .getFamily();
     }
+
+    public List<User> searchUser(String email) {
+        return userRepository.findByEmailContaining(email);
+    }
 }

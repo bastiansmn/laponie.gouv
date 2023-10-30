@@ -28,6 +28,9 @@ public class Wish {
     @Column(name = "gifted", nullable = false, columnDefinition = "boolean default false")
     private boolean gifted;
 
+    @Column(name = "gifter")
+    private String gifter;
+
     @PrePersist
     public void prePersist() {
         this.gifted = false;

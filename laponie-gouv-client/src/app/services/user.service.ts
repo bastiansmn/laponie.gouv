@@ -17,6 +17,11 @@ export class UserService {
     return this.http.get<User>(`/api/user?email=${email}`)
   }
 
+  searchByEmail(email: string) {
+    email = encodeURI(email);
+    return this.http.get<User[]>(`/api/user/search?email=${email}`)
+  }
+
   getFamilies(id: number) {
     return this.http.get<any>(`/api/user/families?id=${id}`)
   }

@@ -20,6 +20,17 @@
     </p>
 
     <p>
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input [errorStateMatcher]="matcher" matInput formControlName="name">
+      </mat-form-field>
+
+      <mat-error *ngIf="authForm.get('name')?.hasError('required') && authForm.get('name')?.dirty">
+        Le nom est <strong>requis</strong>
+      </mat-error>
+    </p>
+
+    <p>
       <small>
         Même si vous n'avez pas créé de compte, entrez une adresse mail et vous pourrez accéder à l'application.
       </small>

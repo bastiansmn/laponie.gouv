@@ -1,7 +1,16 @@
-<mat-list>
-  <mat-list-item *ngFor="let family of families">
-    <a [routerLink]="'/family/' + family.id">
+<div style="padding: 1rem;">
+  <h1>
+    Liste de vos groupes familles
+  </h1>
+
+  <mat-selection-list>
+    <mat-list-item (click)="navigateTo('/family/' + family.id)" *ngFor="let family of families">
       {{ family.name }}
-    </a>
-  </mat-list-item>
-</mat-list>
+    </mat-list-item>
+  </mat-selection-list>
+
+  <button mat-raised-button color="primary" (click)="openAddFamilyDialog()">
+    Créer un groupe famille
+  </button>
+
+</div>

@@ -1,0 +1,12 @@
+<form style="padding: 1rem; width: 40vw;">
+  <mat-form-field style="width: 100%">
+    <mat-label>Email</mat-label>
+    <input matInput [matAutocomplete]="auto" [formControl]="email">
+  </mat-form-field>
+
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleOptionSelected($event)">
+    <mat-option *ngFor="let user of suggestedUsers" [value]="user">
+      {{user.name}} - {{user.email}}
+    </mat-option>
+  </mat-autocomplete>
+</form>

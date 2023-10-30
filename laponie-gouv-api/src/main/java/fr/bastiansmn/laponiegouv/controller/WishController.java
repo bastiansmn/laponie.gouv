@@ -21,8 +21,8 @@ public class WishController {
     }
 
     @PatchMapping("/gifted")
-    public ResponseEntity<Wish> markAsGifted(@RequestParam Long id) throws FunctionalException {
-        return ResponseEntity.ok(wishService.markAsGifted(id));
+    public ResponseEntity<Wish> markAsGifted(@RequestParam Long id, @RequestParam String gifter) throws FunctionalException {
+        return ResponseEntity.ok(wishService.markAsGifted(id, gifter));
     }
 
     @PatchMapping("/not-gifted")
@@ -31,8 +31,9 @@ public class WishController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteWish(Long id) {
-        wishService.deleteWish(id);
+    public ResponseEntity<Void> deleteWish(@RequestParam Long id, @RequestParam Long userID)
+            throws FunctionalException {
+        wishService.deleteWish(id, userID);
         return ResponseEntity.noContent().build();
     }
 

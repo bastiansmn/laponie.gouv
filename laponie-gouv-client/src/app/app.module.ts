@@ -17,6 +17,13 @@ import {HttpClientModule} from "@angular/common/http";
 import { FamilyListComponent } from './components/main/family-list/family-list.component';
 import {MatListModule} from "@angular/material/list";
 import { FamilyComponent } from './components/main/family/family.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import { MarkAsGiftedComponent } from './components/main/family/mark-as-gifted/mark-as-gifted.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { AddUserComponent } from './components/main/family/add-user/add-user.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { AddFamilyDialogComponent } from './components/main/family-list/add-family-dialog/add-family-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +32,10 @@ import { FamilyComponent } from './components/main/family/family.component';
     MainComponent,
     AuthComponent,
     FamilyListComponent,
-    FamilyComponent
+    FamilyComponent,
+    MarkAsGiftedComponent,
+    AddUserComponent,
+    AddFamilyDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +48,11 @@ import { FamilyComponent } from './components/main/family/family.component';
     ReactiveFormsModule,
     MatInputModule,
     HttpClientModule,
-    MatListModule
+    MatListModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

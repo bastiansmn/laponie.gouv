@@ -8,14 +8,38 @@
         {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
       </button>
     </div>
+
+    <div>
+      <button matTooltip="Ajouter un utilisateur" mat-stroked-button color="primary" (click)="openAddUserDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
 
     <mat-selection-list>
-      <mat-list-option color="primary" [selected]="wish.gifted" *ngFor="let wish of currentUser?.wishes">
-        <a target="_blank" (click)="$event.stopPropagation()" [href]="wish.link">{{ wish.link }}</a>
-      </mat-list-option>
+      <div style="margin-bottom: 1rem;" *ngIf="currentUser?.wishes?.length === 0">
+        L'utilisateur n'a pas encore envoyé sa liste au père Noël (ou les lutins sont en grève !)
+      </div>
+
+      <mat-list-item
+        *ngFor="let wish of currentUser?.wishes"
+        (click)="handleSelect(wish)"
+      >
+        <div style="display: flex; align-items: center">
+          <a target="_blank" (click)="$event.stopPropagation()" [href]="wish.link">{{ wish.link }}</a>
+          <small *ngIf="wish.gifted && currentUser.email !== connectedUser.email">
+            Offert par {{ wish.gifter }}
+          </small>
+
+          <mat-checkbox color="primary" disabled style="margin-left: auto" [matTooltip]="wish.gifted ? 'Cadeau offert' : 'Le cadeau n\'est toujours pas offert'" [checked]="wish.gifted"></mat-checkbox>
+
+          <button *ngIf="currentUser.email === connectedUser.email" mat-icon-button color="primary" (click)="handleDelete(wish)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
     </mat-selection-list>
 
     <ng-container *ngIf="currentUser?.email === connectedUser?.email">

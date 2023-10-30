@@ -35,25 +35,39 @@ public class WishService {
         return wish;
     }
 
-    public Wish markAsGifted(Long id) throws FunctionalException {
-        return markAs(id, true);
+    public Wish markAsGifted(Long id, String gifter) throws FunctionalException {
+        return markAs(id, true, gifter);
     }
 
     public Wish markAsNotGifted(Long id) throws FunctionalException {
-        return markAs(id, false);
+        return markAs(id, false, null);
     }
 
-    public void deleteWish(Long id) {
-        wishRepository.deleteById(id);
+    public void deleteWish(Long id, Long userID) throws FunctionalException {
+        Wish wish = wishRepository.findById(id)
+                .orElseThrow(() -> new FunctionalException(
+                        FunctionalRule.WISH_0001
+                ));
+
+        userRepository.findById(userID)
+                .orElseThrow(() -> new FunctionalException(
+                        FunctionalRule.USER_0001
+                ))
+                .getWishes()
+                .remove(wish);
+
+        wishRepository.delete(wish);
     }
 
-    private Wish markAs(Long id, boolean gifted) throws FunctionalException {
+    private Wish markAs(Long id, boolean gifted, String gifter) throws FunctionalException {
         Wish wish = wishRepository.findById(id)
                 .orElseThrow(() -> new FunctionalException(
                         FunctionalRule.WISH_0001
                 ));
 
         wish.setGifted(gifted);
+        if (gifted)
+            wish.setGifter(gifter);
         return wishRepository.save(wish);
     }
 

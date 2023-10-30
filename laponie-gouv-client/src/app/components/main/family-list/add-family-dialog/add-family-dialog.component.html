@@ -1,0 +1,16 @@
+<div style="padding: 1rem;">
+  <form [formGroup]="familyForm">
+    <mat-form-field style="width: 100%;">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="name" [errorStateMatcher]="matcher">
+
+      <mat-error *ngIf="familyForm.get('name')?.hasError('required')">
+        Nom de la famille requis
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+  <button mat-flat-button color="primary" (click)="handleSubmit()">
+    Créer
+  </button>
+</div>

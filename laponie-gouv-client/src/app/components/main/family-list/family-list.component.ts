@@ -4,6 +4,9 @@ import {User} from "../../../model/user.model";
 import {take} from "rxjs";
 import {Router} from "@angular/router";
 import {Family} from "../../../model/family.model";
+import {MatDialog} from "@angular/material/dialog";
+import {AddFamilyDialogComponent} from "./add-family-dialog/add-family-dialog.component";
+import {FamilyService} from "../../../services/family.service";
 
 @Component({
   selector: 'app-family-list',
@@ -16,7 +19,9 @@ export class FamilyListComponent implements OnInit {
 
   constructor(
     private _userService: UserService,
-    private _router: Router
+    private _familyService: FamilyService,
+    private _router: Router,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -34,4 +39,26 @@ export class FamilyListComponent implements OnInit {
       });
   }
 
+  navigateTo(link: string) {
+    this._router.navigate([link]);
+  }
+
+  openAddFamilyDialog() {
+    const dialogRef = this._dialog.open(AddFamilyDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed()
+      .pipe(take(1))
+      .subscribe(result => {
+        if (!result)
+          return;
+
+        this._familyService.createFamily(result)
+          .pipe(take(1))
+          .subscribe(family => {
+            this.families.push(family);
+          });
+      });
+  }
 }
