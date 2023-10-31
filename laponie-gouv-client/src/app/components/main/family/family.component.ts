@@ -41,6 +41,8 @@ export class FamilyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this._appService.forceSidenav(true);
+
     this._activatedRoute.params
       .pipe(take(1))
       .subscribe(params => {

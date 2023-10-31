@@ -14,4 +14,8 @@ export class AppService {
   toggleSidenav() {
     this.sidenavToggled$.next(!this.sidenavToggled$.value);
   }
+
+  forceSidenav(value: boolean) {
+    this.sidenavToggled$.next(value);
+  }
 }
