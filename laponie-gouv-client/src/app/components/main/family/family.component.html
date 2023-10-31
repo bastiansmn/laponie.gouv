@@ -28,7 +28,7 @@
         (click)="currentUser.email !== connectedUser?.email && handleSelect(wish)"
         [matTooltip]="wish.gifted ? 'Cadeau offert' : 'Le cadeau n\'est toujours pas offert'"
       >
-        <div class="wish">
+        <div class="wish" (click)="$event.stopPropagation()">
           <p *ngIf="wish.name" class="ellipsis">
             {{ wish.name }}
           </p>

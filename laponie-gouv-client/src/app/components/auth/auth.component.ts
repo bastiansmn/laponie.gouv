@@ -6,6 +6,7 @@ import {UserService} from "../../services/user.service";
 import {catchError, take} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {Router} from "@angular/router";
+import {LoaderService} from "../../services/loader.service";
 
 @Component({
   selector: 'app-auth',
@@ -16,6 +17,7 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    private _loaderService: LoaderService,
     private _userService: UserService,
     private _localStorageService: LocalStorageService,
     private _router: Router
@@ -38,6 +40,7 @@ export class AuthComponent implements OnInit {
       return;
 
     // Si l'utilisateur existe, on le charge, sinon on le crée
+    this._loaderService.show();
     this._userService.getUserByEmail(this.authForm.value.email)
       .pipe(
         take(1),

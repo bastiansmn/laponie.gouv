@@ -5,6 +5,7 @@ import {debounceTime, Subject, take, takeUntil} from "rxjs";
 import {User} from "../../../../model/user.model";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatDialogRef} from "@angular/material/dialog";
+import {LoaderService} from "../../../../services/loader.service";
 
 @Component({
   selector: 'app-add-user',
@@ -21,6 +22,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialogRef: MatDialogRef<AddUserComponent>,
+    private _loaderService: LoaderService,
     private _fb: FormBuilder,
     private _userService: UserService
   ) { }
@@ -34,6 +36,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
         debounceTime(500)
       )
       .subscribe(value => {
+        this._loaderService.show();
         this._userService.searchByEmail(value)
           .pipe(take(1))
           .subscribe(users => {
@@ -47,7 +50,12 @@ export class AddUserComponent implements OnInit, OnDestroy {
     this.componentDestroyed$.complete();
   }
 
-  handleOptionSelected($event: MatAutocompleteSelectedEvent ) {
-    this.dialogRef.close($event.option.value);
+  handleOptionSelected($event: MatAutocompleteSelectedEvent) {
+    this.email.patchValue($event.option.value);
+  }
+
+  handleSendInvite() {
+    console.log(this.email.value)
+    this.dialogRef.close(this.email.value);
   }
 }

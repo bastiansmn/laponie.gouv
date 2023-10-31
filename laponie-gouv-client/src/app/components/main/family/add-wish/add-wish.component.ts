@@ -21,7 +21,7 @@ export class AddWishComponent implements OnInit {
     this.wishForm = this._fb.group({
       link: this._fb.control<string>("", [Validators.required]),
       name: this._fb.control<string>(""),
-      price: this._fb.control<number | null>(null, [Validators.min(0), Validators.pattern(/^[0-9]+$/)]),
+      price: this._fb.control<number | null>(null, [Validators.min(0)]),
       comment: this._fb.control<string>("")
     })
   }

@@ -24,10 +24,6 @@
     <mat-error *ngIf="wishForm.get('price')?.hasError('min')">
       Le prix doit être positif
     </mat-error>
-
-    <mat-error *ngIf="wishForm.get('price')?.hasError('pattern')">
-      Le prix doit être un nombre
-    </mat-error>
   </mat-form-field>
 
   <mat-form-field style="width: 100%;">

@@ -7,6 +7,7 @@ import {Family} from "../../../model/family.model";
 import {MatDialog} from "@angular/material/dialog";
 import {AddFamilyDialogComponent} from "./add-family-dialog/add-family-dialog.component";
 import {FamilyService} from "../../../services/family.service";
+import {LoaderService} from "../../../services/loader.service";
 
 @Component({
   selector: 'app-family-list',
@@ -17,8 +18,15 @@ export class FamilyListComponent implements OnInit {
 
   families: Family[] = [];
 
+  get connectedUser() {
+    const user = localStorage.getItem('user');
+    if (user === null) return null;
+    return JSON.parse(user) as User;
+  }
+
   constructor(
     private _userService: UserService,
+    private _loaderService: LoaderService,
     private _familyService: FamilyService,
     private _router: Router,
     private _dialog: MatDialog
@@ -31,6 +39,7 @@ export class FamilyListComponent implements OnInit {
       return;
     }
 
+    this._loaderService.show();
     const loggedUser = JSON.parse(stringifiedUser) as User;
     this._userService.getFamilies(loggedUser.id)
       .pipe(take(1))
@@ -54,7 +63,8 @@ export class FamilyListComponent implements OnInit {
         if (!result)
           return;
 
-        this._familyService.createFamily(result)
+        this._loaderService.show();
+        this._familyService.createFamily({ email: this.connectedUser?.email, ...result })
           .pipe(take(1))
           .subscribe(family => {
             this.families.push(family);

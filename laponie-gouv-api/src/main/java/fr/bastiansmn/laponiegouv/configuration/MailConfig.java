@@ -1,5 +1,6 @@
 package fr.bastiansmn.laponiegouv.configuration;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 @Configuration
+@Getter
 public class MailConfig {
 
     @Value("${spring.mail.host}")

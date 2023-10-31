@@ -11,6 +11,8 @@ import {MarkAsGiftedComponent} from "./mark-as-gifted/mark-as-gifted.component";
 import {AddUserComponent} from "./add-user/add-user.component";
 import {AddWishComponent} from "./add-wish/add-wish.component";
 import {AppService} from "../../../services/app.service";
+import {LoaderService} from "../../../services/loader.service";
+import {ConfirmModalComponent} from "../../confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-family',
@@ -35,6 +37,7 @@ export class FamilyComponent implements OnInit {
   constructor(
     private _familyService: FamilyService,
     private _wishService: WishService,
+    private _loaderService: LoaderService,
     private _appService: AppService,
     private _activatedRoute: ActivatedRoute,
     private _dialog: MatDialog
@@ -42,6 +45,8 @@ export class FamilyComponent implements OnInit {
 
   ngOnInit(): void {
     this._appService.forceSidenav(true);
+
+    this._loaderService.show();
 
     this._activatedRoute.params
       .pipe(take(1))
@@ -64,6 +69,7 @@ export class FamilyComponent implements OnInit {
 
     const dialogRef = this._dialog.open(MarkAsGiftedComponent, {
       data: wish,
+      width: '400px',
     });
 
     dialogRef.afterClosed()
@@ -71,6 +77,7 @@ export class FamilyComponent implements OnInit {
       .subscribe(gifter => {
         if (!gifter) return;
 
+        this._loaderService.show();
         this._wishService.markAsGifted(wish.id, gifter)
           .pipe(take(1))
           .subscribe(wish => {
@@ -80,21 +87,39 @@ export class FamilyComponent implements OnInit {
   }
 
   handleDelete(wish: Wish) {
-    this._wishService.deleteWish(wish.id, this.currentUser?.id)
+    const dialogRef = this._dialog.open(ConfirmModalComponent, {
+      data: {
+        title: 'Supprimer le souhait ?',
+      },
+      width: '300px',
+    })
+
+    dialogRef.afterClosed()
       .pipe(take(1))
-      .subscribe(() => {
-        this.currentUser.wishes = this.currentUser.wishes.filter(w => w.id !== wish.id);
+      .subscribe(result => {
+        if (!result) return;
+
+        this._loaderService.show();
+        this._wishService.deleteWish(wish.id, this.currentUser?.id)
+          .pipe(take(1))
+          .subscribe(() => {
+            this.currentUser.wishes = this.currentUser.wishes.filter(w => w.id !== wish.id);
+          });
       });
+
   }
 
   openAddUserDialog() {
-    const dialogRef = this._dialog.open(AddUserComponent);
+    const dialogRef = this._dialog.open(AddUserComponent, {
+      width: '400px',
+    });
 
     dialogRef.afterClosed()
       .pipe(take(1))
       .subscribe(user => {
         if (!user) return;
 
+        this._loaderService.show();
         this._familyService.addUser(this.family.id, user)
           .pipe(take(1))
           .subscribe(family => {
@@ -105,7 +130,7 @@ export class FamilyComponent implements OnInit {
 
   openAddWishDialog() {
     const dialogRef = this._dialog.open(AddWishComponent, {
-      width: '500px',
+      width: '400px',
     });
 
     dialogRef.afterClosed()
@@ -113,6 +138,7 @@ export class FamilyComponent implements OnInit {
       .subscribe(wish => {
         if (!wish) return;
 
+        this._loaderService.show();
         this._wishService.createWish({ email: this.connectedUser?.email, ...wish })
           .pipe(take(1))
           .subscribe(w => {

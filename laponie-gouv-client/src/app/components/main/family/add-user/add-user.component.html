@@ -1,12 +1,18 @@
-<form style="padding: 1rem; width: 40vw;">
+<form style="padding: 1rem">
   <mat-form-field style="width: 100%">
     <mat-label>Email</mat-label>
     <input matInput [matAutocomplete]="auto" [formControl]="email">
   </mat-form-field>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleOptionSelected($event)">
-    <mat-option *ngFor="let user of suggestedUsers" [value]="user">
+    <mat-option *ngFor="let user of suggestedUsers" [value]="user.email">
       {{user.name}} - {{user.email}}
     </mat-option>
   </mat-autocomplete>
+
+  <div class="buttons" style="display: flex; justify-content: flex-end">
+    <button mat-flat-button color="primary" (click)="$event.preventDefault(); handleSendInvite()">
+      Inviter
+    </button>
+  </div>
 </form>

@@ -22,6 +22,7 @@ public class UserService {
         User user = new User();
         user.setName(userCreationDto.name());
         user.setEmail(userCreationDto.email());
+        user.setWishes(List.of());
 
         return userRepository.save(user);
     }

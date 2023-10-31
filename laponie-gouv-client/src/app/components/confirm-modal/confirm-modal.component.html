@@ -1,0 +1,11 @@
+<div style="padding: 1rem;">
+  <h2>
+    {{ data.title }}
+  </h2>
+
+  <div style="display: flex; justify-content: space-between;" class="buttons">
+    <button mat-stroked-button color="primary" (click)="dialogRef.close(false)">Non</button>
+    <button mat-raised-button color="primary" (click)="dialogRef.close(true)">Oui</button>
+  </div>
+
+</div>

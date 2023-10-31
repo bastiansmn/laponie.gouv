@@ -7,5 +7,6 @@ export interface Family {
 }
 
 export interface FamilyCreation {
+  email: string;
   name: string;
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum TechnicalRule {
 
-
+    EMAIL_0001("EMAIL_0001", "Impossible d'envoyer le mail")
     ;
 
     private final String name;
