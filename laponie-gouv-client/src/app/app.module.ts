@@ -24,6 +24,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { AddUserComponent } from './components/main/family/add-user/add-user.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { AddFamilyDialogComponent } from './components/main/family-list/add-family-dialog/add-family-dialog.component';
+import { AddWishComponent } from './components/main/family/add-wish/add-wish.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AddFamilyDialogComponent } from './components/main/family-list/add-fami
     FamilyComponent,
     MarkAsGiftedComponent,
     AddUserComponent,
-    AddFamilyDialogComponent
+    AddFamilyDialogComponent,
+    AddWishComponent
   ],
   imports: [
     BrowserModule,

@@ -15,3 +15,7 @@ header {
   position: sticky;
   top: 0;
 }
+
+.sidenav-toggler {
+  display: block;
+}

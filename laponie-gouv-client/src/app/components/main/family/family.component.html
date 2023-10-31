@@ -1,5 +1,5 @@
 <mat-sidenav-container class="family">
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav class="sidenav" mode="side" [opened]="(sidenavToggled | async) ?? false">
     <div (click)="selectUser(user)" *ngFor="let user of family?.users">
       <button *ngIf="user.email !== currentUser?.email" mat-stroked-button color="primary">
         {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
@@ -25,37 +25,36 @@
 
       <mat-list-item
         *ngFor="let wish of currentUser?.wishes"
-        (click)="handleSelect(wish)"
+        (click)="currentUser.email !== connectedUser?.email && handleSelect(wish)"
+        [matTooltip]="wish.gifted ? 'Cadeau offert' : 'Le cadeau n\'est toujours pas offert'"
       >
-        <div style="display: flex; align-items: center">
-          <a target="_blank" (click)="$event.stopPropagation()" [href]="wish.link">{{ wish.link }}</a>
-          <small *ngIf="wish.gifted && currentUser.email !== connectedUser.email">
+        <div class="wish">
+          <p *ngIf="wish.name" class="ellipsis">
+            {{ wish.name }}
+          </p>
+
+          <a class="ellipsis" target="_blank" (click)="$event.stopPropagation()" [href]="wish.link">{{ wish.link }}</a>
+
+          <small class="ellipsis" *ngIf="wish.gifted && currentUser.email !== connectedUser?.email">
             Offert par {{ wish.gifter }}
           </small>
 
-          <mat-checkbox color="primary" disabled style="margin-left: auto" [matTooltip]="wish.gifted ? 'Cadeau offert' : 'Le cadeau n\'est toujours pas offert'" [checked]="wish.gifted"></mat-checkbox>
+          <div class="buttons">
+            <mat-checkbox color="primary" disabled style="margin-left: auto" [checked]="wish.gifted"></mat-checkbox>
 
-          <button *ngIf="currentUser.email === connectedUser.email" mat-icon-button color="primary" (click)="handleDelete(wish)">
-            <mat-icon>delete</mat-icon>
-          </button>
+            <button *ngIf="currentUser.email === connectedUser?.email" mat-icon-button color="primary" (click)="handleDelete(wish)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-list-item>
     </mat-selection-list>
 
     <ng-container *ngIf="currentUser?.email === connectedUser?.email">
-      <h4>
-        Ajouter un cadeau
-      </h4>
-      <div class="addWishForm">
-        <ng-container [formGroup]="addWishForm">
-          <mat-form-field>
-            <mat-label>Lien du cadeau</mat-label>
-            <input [errorStateMatcher]="matcher" matInput placeholder="https://amazon.fr/..." formControlName="link">
-          </mat-form-field>
-          <button (click)="handleSubmitWish()" mat-icon-button color="primary">
-            <mat-icon>add</mat-icon>
-          </button>
-        </ng-container>
+      <div style="margin-top: 1rem">
+        <button matTooltip="Ajouter un cadeau" mat-stroked-button color="primary" (click)="openAddWishDialog()">
+          Ajouter un cadeau
+        </button>
       </div>
     </ng-container>
 

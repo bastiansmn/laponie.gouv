@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {Component} from '@angular/core';
+import {AppService} from "../../services/app.service";
 
 @Component({
   selector: 'app-header',
@@ -8,12 +8,11 @@ import {BehaviorSubject} from "rxjs";
 })
 export class HeaderComponent {
 
-  private sidenavToggled$ = new BehaviorSubject<boolean>(false);
-  get sidenavToggled() {
-    return this.sidenavToggled$.asObservable()
-  }
+  constructor(
+    private _appService: AppService
+  ) { }
 
   toggleSidenav() {
-    this.sidenavToggled$.next(!this.sidenavToggled$.value);
+    this._appService.toggleSidenav();
   }
 }

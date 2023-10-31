@@ -40,4 +40,7 @@ export class MarkAsGiftedComponent implements OnInit {
     this.dialogRef.close(this.gifter.value);
   }
 
+  handleCancel() {
+    this.dialogRef.close();
+  }
 }

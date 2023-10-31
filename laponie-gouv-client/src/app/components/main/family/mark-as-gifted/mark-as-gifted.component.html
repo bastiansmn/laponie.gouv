@@ -39,7 +39,14 @@
 
   </form>
 
-  <button (click)="handleSubmit()" mat-raised-button color="primary">
-    Je suis le Père Noël de ce cadeau !
-  </button>
+  <div class="buttons" style="display: flex; justify-content: space-between;">
+    <button mat-stroked-button color="primary" (click)="handleCancel()">
+      Annuler
+    </button>
+
+    <button (click)="handleSubmit()" mat-raised-button color="primary">
+      Je suis le Père Noël de ce cadeau ! 🎅🏻
+    </button>
+  </div>
+
 </div>

@@ -2,16 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {FamilyService} from "../../../services/family.service";
 import {Family} from "../../../model/family.model";
 import {ActivatedRoute} from "@angular/router";
-import {take} from "rxjs";
+import {Observable, take} from "rxjs";
 import {User} from "../../../model/user.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {markAllAsDirty} from "../../../utils/form.utils";
 import {WishService} from "../../../services/wish.service";
-import {CustomErrorStateMatcher} from "../../../utils/custom-error-state.matcher";
 import {Wish} from "../../../model/wish.model";
 import {MatDialog} from "@angular/material/dialog";
 import {MarkAsGiftedComponent} from "./mark-as-gifted/mark-as-gifted.component";
 import {AddUserComponent} from "./add-user/add-user.component";
+import {AddWishComponent} from "./add-wish/add-wish.component";
+import {AppService} from "../../../services/app.service";
 
 @Component({
   selector: 'app-family',
@@ -23,27 +22,25 @@ export class FamilyComponent implements OnInit {
   family!: Family;
   currentUser!: User;
 
-  addWishForm!: FormGroup;
-
-  matcher = new CustomErrorStateMatcher();
-
   get connectedUser() {
-    return JSON.parse(localStorage.getItem('user')!) as User;
+    const user = localStorage.getItem('user');
+    if (user === null) return null;
+    return JSON.parse(user) as User;
+  }
+
+  get sidenavToggled(): Observable<boolean> {
+    return this._appService.sidenavToggled;
   }
 
   constructor(
     private _familyService: FamilyService,
     private _wishService: WishService,
+    private _appService: AppService,
     private _activatedRoute: ActivatedRoute,
-    private _fb: FormBuilder,
     private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.addWishForm = this._fb.group({
-      link: this._fb.control<string>('', [Validators.required])
-    });
-
     this._activatedRoute.params
       .pipe(take(1))
       .subscribe(params => {
@@ -57,21 +54,7 @@ export class FamilyComponent implements OnInit {
 
   selectUser(user: User) {
     this.currentUser = user;
-  }
-
-  handleSubmitWish() {
-    markAllAsDirty(this.addWishForm);
-
-    if (this.addWishForm.invalid) {
-      return;
-    }
-
-    this._wishService.createWish({ email: this.connectedUser.email, ...this.addWishForm.value })
-      .pipe(take(1))
-      .subscribe(wish => {
-        console.log(wish);
-        this.currentUser.wishes.push(wish);
-      })
+    this._appService.toggleSidenav();
   }
 
   handleSelect(wish: Wish) {
@@ -114,6 +97,24 @@ export class FamilyComponent implements OnInit {
           .pipe(take(1))
           .subscribe(family => {
             this.family = family;
+          })
+      })
+  }
+
+  openAddWishDialog() {
+    const dialogRef = this._dialog.open(AddWishComponent, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed()
+      .pipe(take(1))
+      .subscribe(wish => {
+        if (!wish) return;
+
+        this._wishService.createWish({ email: this.connectedUser?.email, ...wish })
+          .pipe(take(1))
+          .subscribe(w => {
+            this.currentUser.wishes.push(w);
           })
       })
   }

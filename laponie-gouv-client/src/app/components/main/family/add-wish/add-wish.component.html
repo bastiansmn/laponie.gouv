@@ -1,0 +1,47 @@
+<form style="padding: 1rem" [formGroup]="wishForm">
+  <h3>
+    Ajouter un cadeau
+  </h3>
+
+  <mat-form-field style="width: 100%;">
+    <mat-label>Lien du cadeau</mat-label>
+    <input matInput placeholder="Lien du cadeau" formControlName="link">
+
+    <mat-error *ngIf="wishForm.get('link')?.hasError('required')">
+      Lien du cadeau requis
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%;">
+    <mat-label>Nom</mat-label>
+    <input matInput placeholder="Nom" formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%;">
+    <mat-label>Prix</mat-label>
+    <input matInput type="number" min="0" step="any" formControlName="price" />
+
+    <mat-error *ngIf="wishForm.get('price')?.hasError('min')">
+      Le prix doit être positif
+    </mat-error>
+
+    <mat-error *ngIf="wishForm.get('price')?.hasError('pattern')">
+      Le prix doit être un nombre
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%;">
+    <mat-label>Commentaire</mat-label>
+    <textarea matInput formControlName="comment"></textarea>
+  </mat-form-field>
+
+  <div style="display: flex">
+    <button mat-stroked-button color="primary" (click)="handleCancel()">
+      Annuler
+    </button>
+
+    <button style="margin-left: auto" mat-flat-button color="primary" (click)="handleSubmit()">
+      Ajouter
+    </button>
+  </div>
+</form>
