@@ -1,6 +1,7 @@
 package fr.bastiansmn.laponiegouv.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.bastiansmn.laponiegouv.model.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -28,6 +29,10 @@ public class User {
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Wish> wishes;
+
+    @Column(name = "sexe")
+    @Enumerated(EnumType.STRING)
+    private Gender sexe;
 
     @Override
     public boolean equals(Object obj) {
