@@ -21,5 +21,8 @@ spec:
           envFrom:
           - secretRef:
               name: laponie-gouv-secret
+          env:
+            - name: APPLICATION_URL
+              value: "https://laponie-gouv.bastian-somon.fr"
       imagePullSecrets:
         - name: registry-creds

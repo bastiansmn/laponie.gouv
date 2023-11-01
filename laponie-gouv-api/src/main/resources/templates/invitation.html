@@ -5,8 +5,36 @@
         Invitation à rejoindre un groupe famille !
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+    </style>
 </head>
 <body>
-titi
+    <h1>
+        Vous avez été invité à rejoindre un groupe famille !
+    </h1>
+
+    <p>
+        Bienvenue sur le site de gestion des listes de Noël.
+    </p>
+
+    <p>
+        Vous avez été invité dans un groupe famille, cela veut dire qu'une fois connectés, vous pourrez voir les listes de cadeaux de vos proches et ajouter des cadeaux à votre tour.
+    </p>
+
+    <a th:href="@{${authLink}}" th:text="${authLink}"></a>
+
+    <p>
+        Il suffit de cliquer sur le lien, entrer votre mail (le même que celui sur lequel vous avez reçu ce mail) et vous serez connecté.
+    </p>
+
+    <p>
+        Si le lien ne s'affiche pas correctement, vous pouvez le copier-coller dans votre navigateur.
+    </p>
+    <span th:text="${authLink}"></span>
+
 </body>
 </html>

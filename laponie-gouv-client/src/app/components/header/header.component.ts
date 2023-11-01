@@ -8,6 +8,10 @@ import {AppService} from "../../services/app.service";
 })
 export class HeaderComponent {
 
+  get sidenavToggled() {
+    return this._appService.sidenavToggled;
+  }
+
   constructor(
     private _appService: AppService
   ) { }

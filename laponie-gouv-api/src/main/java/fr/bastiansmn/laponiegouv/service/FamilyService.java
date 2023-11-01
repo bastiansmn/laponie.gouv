@@ -1,5 +1,6 @@
 package fr.bastiansmn.laponiegouv.service;
 
+import fr.bastiansmn.laponiegouv.configuration.properties.ApplicationProperties;
 import fr.bastiansmn.laponiegouv.dto.FamilyCreationDto;
 import fr.bastiansmn.laponiegouv.dto.UserCreationDto;
 import fr.bastiansmn.laponiegouv.exception.FunctionalException;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +30,11 @@ public class FamilyService {
     private final UserRepository userRepository;
     private final TemplateEngine templateEngine;
 
+    private final ApplicationProperties applicationProperties;
+
     public Family getFamily(Long id) throws FunctionalException {
-        return familyRepository.findById(id).
-        orElseThrow(() -> new FunctionalException(FunctionalRule.FAMILY_0001));
+        return familyRepository.findById(id)
+                .orElseThrow(() -> new FunctionalException(FunctionalRule.FAMILY_0001));
     }
 
     public Family createFamily(FamilyCreationDto familyCreationDto) throws FunctionalException {
@@ -53,7 +58,13 @@ public class FamilyService {
         if (savedUser.isEmpty()) {
             // Send invitation to user and create it
             final Context ctx = new Context();
+            ctx.setVariable(
+                "authLink", applicationProperties.getUrl() + "/home" +
+                    "?email=" + URLEncoder.encode(userEmail, StandardCharsets.UTF_8) +
+                    "&redirect=" + URLEncoder.encode("/family/" + familyId, StandardCharsets.UTF_8)
+            );
             String htmlContent = templateEngine.process("invitation", ctx);
+
             mailService.sendMail(
                     "laponie-gouv.bastian-somon.fr",
                     List.of(userEmail),

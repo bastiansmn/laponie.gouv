@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../services/user.service";
 import {User} from "../../../model/user.model";
-import {take} from "rxjs";
-import {Router} from "@angular/router";
+import {catchError, take} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Family} from "../../../model/family.model";
 import {MatDialog} from "@angular/material/dialog";
 import {AddFamilyDialogComponent} from "./add-family-dialog/add-family-dialog.component";
 import {FamilyService} from "../../../services/family.service";
 import {LoaderService} from "../../../services/loader.service";
+import {LocalStorageService} from "../../../services/local-storage.service";
 
 @Component({
   selector: 'app-family-list',
@@ -28,6 +29,8 @@ export class FamilyListComponent implements OnInit {
     private _userService: UserService,
     private _loaderService: LoaderService,
     private _familyService: FamilyService,
+    private _localStorageService: LocalStorageService,
+    private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _dialog: MatDialog
   ) { }
@@ -38,6 +41,8 @@ export class FamilyListComponent implements OnInit {
       this._router.navigate(['/auth']);
       return;
     }
+
+
 
     this._loaderService.show();
     const loggedUser = JSON.parse(stringifiedUser) as User;

@@ -69,16 +69,16 @@ export class FamilyComponent implements OnInit {
 
     const dialogRef = this._dialog.open(MarkAsGiftedComponent, {
       data: wish,
-      width: '400px',
+      width: '600px',
     });
 
     dialogRef.afterClosed()
       .pipe(take((1)))
       .subscribe(gifter => {
-        if (!gifter) return;
+        if (!gifter || !this.connectedUser?.email) return;
 
         this._loaderService.show();
-        this._wishService.markAsGifted(wish.id, gifter)
+        this._wishService.markAsGifted(wish.id, gifter, this.connectedUser?.email)
           .pipe(take(1))
           .subscribe(wish => {
             this.currentUser.wishes = this.currentUser.wishes.map(w => w.id === wish.id ? wish : w);
@@ -145,5 +145,9 @@ export class FamilyComponent implements OnInit {
             this.currentUser.wishes.push(w);
           })
       })
+  }
+
+  handleOpenWish(wish: Wish) {
+    console.log( wish );
   }
 }

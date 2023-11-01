@@ -1,7 +1,8 @@
 <header>
   <mat-toolbar role="heading" color="primary">
-    <button class="sidenav-toggler" mat-icon-button (click)="toggleSidenav()">
-      <mat-icon>menu</mat-icon>
+    <button mat-icon-button (click)="toggleSidenav()">
+      <mat-icon *ngIf="!(sidenavToggled | async)">menu</mat-icon>
+      <mat-icon *ngIf="sidenavToggled | async">close</mat-icon>
     </button>
     <span>
       <a routerLink="/" style="color: white; text-decoration: none">Laponie.gouv 🎅🏻</a>

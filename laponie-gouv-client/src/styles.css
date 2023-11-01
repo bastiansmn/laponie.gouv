@@ -8,3 +8,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+@media (max-width: 599px) {
+  main {
+    height: calc(100vh - 56px) !important;
+  }
+}
+
+main {
+  height: calc(100vh - 64px);
+}

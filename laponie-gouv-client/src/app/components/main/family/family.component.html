@@ -18,37 +18,55 @@
 
   <mat-sidenav-content>
 
-    <mat-selection-list>
-      <div style="margin-bottom: 1rem;" *ngIf="currentUser?.wishes?.length === 0">
-        L'utilisateur n'a pas encore envoyé sa liste au père Noël (ou les lutins sont en grève !)
-      </div>
+    <h1>
+      Liste des cadeaux de {{ currentUser?.name }}
+    </h1>
 
+    <div style="margin-bottom: 1rem;" *ngIf="currentUser?.wishes?.length === 0">
+      L'utilisateur n'a pas encore envoyé sa liste au père Noël (ou les lutins sont en grève !)
+    </div>
+
+    <mat-list role="list">
       <mat-list-item
         *ngFor="let wish of currentUser?.wishes"
-        (click)="currentUser.email !== connectedUser?.email && handleSelect(wish)"
         [matTooltip]="wish.gifted ? 'Cadeau offert' : 'Le cadeau n\'est toujours pas offert'"
       >
-        <div class="wish" (click)="$event.stopPropagation()">
-          <p *ngIf="wish.name" class="ellipsis">
+        <div class="wish">
+          <h2 style="margin-bottom: 0;" *ngIf="wish.name" class="ellipsis">
             {{ wish.name }}
+          </h2>
+
+          <a class="ellipsis" target="_blank" [href]="wish.link">
+            {{ wish.link }}
+          </a>
+
+          <br>
+
+          <p *ngIf="wish.comment">
+            {{ wish.comment }}
           </p>
 
-          <a class="ellipsis" target="_blank" (click)="$event.stopPropagation()" [href]="wish.link">{{ wish.link }}</a>
-
-          <small class="ellipsis" *ngIf="wish.gifted && currentUser.email !== connectedUser?.email">
-            Offert par {{ wish.gifter }}
-          </small>
+          <mat-checkbox *ngIf="currentUser.email !== connectedUser?.email" disabled color="primary" style="margin-left: auto" [checked]="wish.gifted">
+            <small class="ellipsis" *ngIf="wish.gifted">
+              Offert par {{ wish.gifter }}
+            </small>
+            <small class="ellipsis" *ngIf="!wish.gifted">
+              Le cadeau n'est toujours pas offert
+            </small>
+          </mat-checkbox>
 
           <div class="buttons">
-            <mat-checkbox color="primary" disabled style="margin-left: auto" [checked]="wish.gifted"></mat-checkbox>
+            <button style="margin-left: auto;" *ngIf="currentUser.email !== connectedUser?.email && !wish.gifted" mat-flat-button color="primary" (click)="handleSelect(wish)">
+              Offrir ce cadeau
+            </button>
 
-            <button *ngIf="currentUser.email === connectedUser?.email" mat-icon-button color="primary" (click)="handleDelete(wish)">
+            <button style="margin-left: auto;" *ngIf="currentUser.email === connectedUser?.email" mat-icon-button color="warn" (click)="handleDelete(wish)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
         </div>
       </mat-list-item>
-    </mat-selection-list>
+    </mat-list>
 
     <ng-container *ngIf="currentUser?.email === connectedUser?.email">
       <div style="margin-top: 1rem">

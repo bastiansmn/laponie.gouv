@@ -28,7 +28,7 @@
   <form style="margin-bottom: 2rem;">
     <mat-form-field style="width: 100%">
       <mat-label>Votre nom :</mat-label>
-      <input type="email" matInput [formControl]="gifter" [errorStateMatcher]="matcher">
+      <input type="text" matInput [formControl]="gifter" [errorStateMatcher]="matcher">
       <mat-hint>
         Ce nom sera visible pour les autres pères Noël (mais pas pour le destinataire du cadeau).
       </mat-hint>
@@ -39,7 +39,7 @@
 
   </form>
 
-  <div class="buttons" style="display: flex; justify-content: space-between;">
+  <div class="buttons">
     <button mat-stroked-button color="primary" (click)="handleCancel()">
       Annuler
     </button>

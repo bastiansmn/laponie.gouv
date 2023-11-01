@@ -15,8 +15,8 @@ export class WishService {
     return this.http.post<Wish>('/api/wish', wish)
   }
 
-  markAsGifted(wishID: number, gifter: string) {
-    return this.http.patch<Wish>(`/api/wish/gifted?id=${wishID}&gifter=${gifter}`, null)
+  markAsGifted(wishID: number, gifter: string, email: string) {
+    return this.http.patch<Wish>(`/api/wish/gifted?id=${wishID}&gifter=${gifter}&email=${email}`, null)
   }
 
   markAsNotGifted(wishID: number) {

@@ -4,6 +4,7 @@ import {Wish} from "../../../../model/wish.model";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {markAllAsDirty} from "../../../../utils/form.utils";
 import {CustomErrorStateMatcher} from "../../../../utils/custom-error-state.matcher";
+import {User} from "../../../../model/user.model";
 
 @Component({
   selector: 'app-mark-as-gifted',
@@ -20,6 +21,12 @@ export class MarkAsGiftedComponent implements OnInit {
     return this._wish;
   }
 
+  get connectedUser() {
+    const user = localStorage.getItem('user');
+    if (user === null) return null;
+    return JSON.parse(user) as User;
+  }
+
   constructor(
     public dialogRef: MatDialogRef<MarkAsGiftedComponent>,
     @Inject(MAT_DIALOG_DATA) private _wish: Wish,
@@ -27,7 +34,7 @@ export class MarkAsGiftedComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.gifter = this._fb.control<string>('', [Validators.required]);
+    this.gifter = this._fb.control<string>(this.connectedUser?.name ?? '', [Validators.required]);
   }
 
   handleSubmit() {
