@@ -1,6 +1,5 @@
 package fr.bastiansmn.laponiegouv.service;
 
-import fr.bastiansmn.laponiegouv.configuration.MailConfig;
 import fr.bastiansmn.laponiegouv.exception.TechnicalException;
 import fr.bastiansmn.laponiegouv.exception.TechnicalRule;
 import jakarta.annotation.Nullable;
@@ -10,7 +9,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class MailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailService.class);
 
-    private final MailConfig mailConfig;
+    private final JavaMailSender mailSender;
 
     public void sendMail(String from, List<String> to, String subject, String body, @Nullable MultipartFile[] files)
             throws TechnicalException {
@@ -39,13 +37,6 @@ public class MailService {
                 );
         }
 
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(mailConfig.getHost());
-        mailSender.setPort(mailConfig.getPort());
-        mailSender.setUsername(mailConfig.getUsername());
-        mailSender.setPassword(mailConfig.getPassword());
-        Properties properties = mailSender.getJavaMailProperties();
-        properties.put("mail.transport.protocol", "smtp");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.toString());
