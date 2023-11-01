@@ -2,11 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <title th:remove="all">
-        Invitation à rejoindre un groupe famille !
+        Rappel pour votre cadeau
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+    </style>
 </head>
 <body>
-titi
+    <h1>
+        Pensez à offrir votre cadeau !
+    </h1>
+
+    <p>
+        Vous avez choisi d'offrir le cadeau suivant :
+    </p>
+
+    <p>
+        Nom :
+        <span th:text="${wish.name}"></span>
+    </p>
+
+    <p>
+        Lien :
+        <a th:href="@{${wish.link}}" th:text="${wish.link}"></a>
+    </p>
+
+    <p>
+        Commentaire :
+        <span th:text="${wish.comment}"></span>
+    </p>
+
+    <p>
+        Prix :
+        <span th:text="${wish.price}"></span>
+    </p>
+
+    <p>
+        N'oubliez pas de l'offrir avant le 25 décembre !
+        Aucun rappel ne sera envoyé. Il est conseillé de conserver ce mail.
+    </p>
 </body>
 </html>
