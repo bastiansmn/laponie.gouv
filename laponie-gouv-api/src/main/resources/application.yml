@@ -30,9 +30,7 @@ spring:
         smtp:
           auth: true
           starttls:
-            enable: false
-          ssl:
-            enable: false
+            enable: true
 
   flyway:
     locations: classpath:db/migration
