@@ -26,6 +26,7 @@ public class FamilyService {
 
     private final MailService mailService;
     private final UserService userService;
+    private final KidService kidService;
     private final FamilyRepository familyRepository;
     private final UserRepository userRepository;
     private final TemplateEngine templateEngine;
@@ -82,6 +83,15 @@ public class FamilyService {
             throw new FunctionalException(FunctionalRule.FAMILY_0003);
 
         family.getUsers().add(user);
+        return familyRepository.save(family);
+    }
+
+    public Family addKidInFamily(Long familyId, String kidName) throws FunctionalException {
+        Family family = familyRepository.findById(familyId)
+                .orElseThrow(() -> new FunctionalException(FunctionalRule.FAMILY_0001));
+
+        family.getKids().add(kidService.createKid(kidName));
+
         return familyRepository.save(family);
     }
 

@@ -26,53 +26,18 @@
   padding: var(--padding);
 }
 
-.addWishForm {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+@media screen and (max-width: 600px) {
+  .family mat-sidenav-content {
+    --width: 100%;
+  }
 }
 
-.addWishForm > mat-form-field {
-  width: 90%;
-}
-
-mat-list-item {
-  background: white;
-  border-radius: 5px;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  margin-bottom: .5rem;
-  height: unset !important;
+.sidenav {
+  padding: .5rem;
 }
 
 @media screen and (max-width: 600px) {
   .sidenav {
     width: 100% !important;
   }
-
-  .family mat-sidenav-content {
-    --width: 100%;
-  }
 }
-
-mat-checkbox small {
-  font-size: medium;
-  color: rgb(0 0 0 / 87%) !important;
-}
-
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.wish {
-  display: block;
-}
-
-.wish > * {
-  width: 100%;
-
-}
-

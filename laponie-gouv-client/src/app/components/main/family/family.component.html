@@ -1,5 +1,8 @@
 <mat-sidenav-container class="family">
   <mat-sidenav class="sidenav" mode="side" [opened]="(sidenavToggled | async) ?? false">
+    <h1>
+      Listes des adultes :
+    </h1>
     <div (click)="selectUser(user)" *ngFor="let user of family?.users">
       <button *ngIf="user.email !== currentUser?.email" mat-stroked-button color="primary">
         {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
@@ -10,71 +13,33 @@
     </div>
 
     <div>
-      <button matTooltip="Ajouter un utilisateur" mat-stroked-button color="primary" (click)="openAddUserDialog()">
-        <mat-icon>add</mat-icon>
+      <button matTooltip="Ajouter un utilisateur" mat-button color="primary" (click)="openAddUserDialog()">
+        Ajouter un adulte
+      </button>
+    </div>
+
+    <h1>
+      Listes des enfants :
+    </h1>
+    <div (click)="selectKid(kid)" *ngFor="let kid of family?.kids">
+      <button *ngIf="kid.id !== currentKid?.id" mat-stroked-button color="primary">
+        {{ kid.name }}
+      </button>
+      <button *ngIf="kid.id === currentKid?.id" mat-flat-button color="primary">
+        {{ kid.name }}
+      </button>
+    </div>
+
+    <div>
+      <button matTooltip="Ajouter un enfant" mat-button color="primary" (click)="openAddKidDialog()">
+        Ajouter un enfant
       </button>
     </div>
   </mat-sidenav>
-
   <mat-sidenav-content>
 
-    <h1>
-      Liste des cadeaux de {{ currentUser?.name }}
-    </h1>
-
-    <div style="margin-bottom: 1rem;" *ngIf="currentUser?.wishes?.length === 0">
-      L'utilisateur n'a pas encore envoyé sa liste au père Noël (ou les lutins sont en grève !)
-    </div>
-
-    <mat-list role="list">
-      <mat-list-item
-        *ngFor="let wish of currentUser?.wishes"
-        [matTooltip]="wish.gifted ? 'Cadeau offert' : 'Le cadeau n\'est toujours pas offert'"
-      >
-        <div class="wish">
-          <h2 style="margin-bottom: 0;" *ngIf="wish.name" class="ellipsis">
-            {{ wish.name }}
-          </h2>
-
-          <a class="ellipsis" target="_blank" [href]="wish.link">
-            {{ wish.link }}
-          </a>
-
-          <br>
-
-          <p *ngIf="wish.comment">
-            {{ wish.comment }}
-          </p>
-
-          <mat-checkbox *ngIf="currentUser.email !== connectedUser?.email" disabled color="primary" style="margin-left: auto" [checked]="wish.gifted">
-            <small class="ellipsis" *ngIf="wish.gifted">
-              Offert par {{ wish.gifter }}
-            </small>
-            <small class="ellipsis" *ngIf="!wish.gifted">
-              Le cadeau n'est toujours pas offert
-            </small>
-          </mat-checkbox>
-
-          <div class="buttons">
-            <button style="margin-left: auto;" *ngIf="currentUser.email !== connectedUser?.email && !wish.gifted" mat-flat-button color="primary" (click)="handleSelect(wish)">
-              Offrir ce cadeau
-            </button>
-
-            <button style="margin-left: auto;" *ngIf="currentUser.email === connectedUser?.email" mat-icon-button color="warn" (click)="handleDelete(wish)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-list-item>
-    </mat-list>
-
-    <ng-container *ngIf="currentUser?.email === connectedUser?.email">
-      <div style="margin-top: 1rem">
-        <button matTooltip="Ajouter un cadeau" mat-stroked-button color="primary" (click)="openAddWishDialog()">
-          Ajouter un cadeau
-        </button>
-      </div>
-    </ng-container>
+    <app-adult-wishlist [currentUser]="currentUser" *ngIf="currentUser"></app-adult-wishlist>
+    <app-kid-wishlist [currentKid]="currentKid" *ngIf="currentKid"></app-kid-wishlist>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

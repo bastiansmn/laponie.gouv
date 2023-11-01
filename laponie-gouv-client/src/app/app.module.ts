@@ -29,6 +29,9 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ApiInterceptor} from "./utils/api.interceptor";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { AddKidDialogComponent } from './components/main/family/add-kid-dialog/add-kid-dialog.component';
+import { AdultWishlistComponent } from './components/main/family/adult-wishlist/adult-wishlist.component';
+import { KidWishlistComponent } from './components/main/family/kid-wishlist/kid-wishlist.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     AddUserComponent,
     AddFamilyDialogComponent,
     AddWishComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    AddKidDialogComponent,
+    AdultWishlistComponent,
+    KidWishlistComponent
   ],
   imports: [
     BrowserModule,

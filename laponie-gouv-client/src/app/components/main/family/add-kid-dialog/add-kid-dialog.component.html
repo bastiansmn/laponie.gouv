@@ -1,0 +1,11 @@
+<form style="padding: 1rem;">
+  <mat-form-field style="width: 100%">
+    <mat-label>Nom</mat-label>
+    <input matInput [formControl]="kidNameControl">
+  </mat-form-field>
+
+  <div class="buttons" style="display: flex; align-items: center; justify-content: space-between; margin-top: 1rem;">
+    <button mat-stroked-button color="primary" (click)="$event.preventDefault(); handleCancel()">Annuler</button>
+    <button mat-raised-button color="primary" (click)="$event.preventDefault(); handleSave()">Enregistrer</button>
+  </div>
+</form>

@@ -38,6 +38,12 @@ public class FamilyController {
         return ResponseEntity.ok(familyService.addUserInFamily(id, email));
     }
 
+    @PutMapping("/kid")
+    public ResponseEntity<Family> addKid(@RequestParam Long id, @RequestParam String name)
+            throws FunctionalException {
+        return ResponseEntity.ok(familyService.addKidInFamily(id, name));
+    }
+
     @DeleteMapping
     public ResponseEntity<Void> removeUser(@RequestParam Long id, @RequestBody User user) throws FunctionalException {
         familyService.removeUser(id, user);

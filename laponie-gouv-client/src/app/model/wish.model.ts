@@ -17,3 +17,11 @@ export interface WishCreation {
   price?: number;
   comment?: string;
 }
+
+export interface KidWishCreation {
+  kidID: number;
+  link: string;
+  name?: string;
+  price?: number;
+  comment?: string;
+}

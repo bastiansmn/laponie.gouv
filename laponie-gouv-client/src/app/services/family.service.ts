@@ -24,6 +24,10 @@ export class FamilyService {
     return this.http.put<Family>(`api/family?id=${id}&email=${email}`, null)
   }
 
+  addKid(id: number, name: string) {
+    return this.http.put<Family>(`api/family/kid?id=${id}&name=${name}`, null)
+  }
+
   removeUser(id: number, user: User) {
     return this.http.delete<void>(`api/family?id=${id}`, {body: user})
   }

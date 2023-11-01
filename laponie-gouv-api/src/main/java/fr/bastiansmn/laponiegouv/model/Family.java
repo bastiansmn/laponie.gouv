@@ -25,4 +25,11 @@ public class Family {
     )
     private List<User> users;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "link_family_kid",
+            joinColumns = @JoinColumn(name = "family_id"),
+            inverseJoinColumns = @JoinColumn(name = "kid_id")
+    )
+    private List<Kid> kids;
+
 }
