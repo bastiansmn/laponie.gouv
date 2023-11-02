@@ -32,4 +32,7 @@ public class Family {
     )
     private List<Kid> kids;
 
+    @Column(name = "draw", columnDefinition = "text")
+    private String draw;
+
 }

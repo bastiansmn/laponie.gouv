@@ -18,7 +18,11 @@ import org.thymeleaf.context.Context;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -105,5 +109,77 @@ public class FamilyService {
             throw new FunctionalException(FunctionalRule.FAMILY_0002);
 
         familyRepository.save(family);
+    }
+
+    public Map<?, ?> drawWish(Long id, List<String> exludedEmails, boolean genderFill) throws FunctionalException {
+        Family family = familyRepository.findById(id)
+                .orElseThrow(() -> new FunctionalException(FunctionalRule.FAMILY_0001));
+
+        Map<User, Optional<User>> draw = family.getUsers()
+                .stream()
+                .filter(user -> !exludedEmails.contains(user.getEmail()))
+                .collect(Collectors.toMap(user -> user, user -> Optional.empty()));
+
+        // Tant que qqn n'a pas de cadeau à donner
+        while (draw.values().stream().anyMatch(Optional::isEmpty)) {
+            // On chercher cette personne
+            User giver = draw.keySet().stream().filter(k -> draw.get(k).isEmpty()).findAny()
+                    .orElseThrow();
+
+            // Randomly find a receiver that is not receiver already.
+            List<User> allUnlinkedUsers = draw.keySet().stream()
+                    .filter(k -> !draw.values()
+                            .stream()
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .toList()
+                            .contains(k))
+                    .filter(k -> !k.equals(giver))
+                    .filter(k -> !genderFill || k.getSexe().equals(giver.getSexe()))
+                    .toList();
+
+            int randomIndex = new Random().nextInt(allUnlinkedUsers.size());
+            User receiver = allUnlinkedUsers.get(randomIndex);
+
+            draw.put(giver, Optional.of(receiver));
+        }
+
+        AtomicBoolean drawSuccessfull = new AtomicBoolean(true);
+        draw.forEach((key, value) -> {
+            final Context ctx = new Context();
+            ctx.setVariable("giver", key);
+            ctx.setVariable("receiver", value.get());
+            ctx.setVariable("familyLink",
+                    applicationProperties.getUrl()
+                        + "/home"
+                        + "?email=" + URLEncoder.encode(key.getEmail(), StandardCharsets.UTF_8)
+                        + "&redirect=" + URLEncoder.encode("/family/" + id, StandardCharsets.UTF_8)
+            );
+            String htmlContent = templateEngine.process("draw", ctx);
+
+            try {
+                mailService.sendMail(
+                        "laponie-gouv.bastian-somon.fr",
+                        List.of(key.getEmail()),
+                        "Tirage au sort de Noël",
+                        htmlContent,
+                        null
+                );
+            } catch (TechnicalException e) {
+                drawSuccessfull.set(false);
+            }
+        });
+
+        if (!drawSuccessfull.get())
+            throw new FunctionalException(FunctionalRule.FAMILY_0004);
+
+        // Get a map of giver.getMail() -> receiver.getMail()
+        Map<String, String> emailMap = draw.entrySet().stream()
+                .collect(Collectors.toMap(userOptionalEntry -> userOptionalEntry.getKey().getEmail(), entry -> entry.getValue().get().getEmail()));
+
+        family.setDraw(emailMap.toString());
+        familyRepository.save(family);
+
+        return emailMap;
     }
 }

@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.bastiansmn.laponiegouv.model.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Table(name = "family_user")
 @Data
+@ToString
 public class User {
 
     @Id
@@ -25,6 +27,7 @@ public class User {
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     @JsonIgnore
+    @ToString.Exclude
     private List<Family> family;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)

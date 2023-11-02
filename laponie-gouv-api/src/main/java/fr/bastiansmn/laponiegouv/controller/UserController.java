@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody UserCreationDto userCreationDto) {
+    public ResponseEntity<User> createUser(@RequestBody UserCreationDto userCreationDto) throws FunctionalException {
         return ResponseEntity.ok(userService.createUser(userCreationDto));
     }
 

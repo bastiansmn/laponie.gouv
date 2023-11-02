@@ -18,7 +18,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User createUser(UserCreationDto userCreationDto) {
+    public User createUser(UserCreationDto userCreationDto) throws FunctionalException {
+        if (userRepository.findByEmail(userCreationDto.email()).isPresent()) {
+            throw new FunctionalException(FunctionalRule.USER_0002);
+        }
+
         User user = new User();
         user.setName(userCreationDto.name());
         user.setEmail(userCreationDto.email());

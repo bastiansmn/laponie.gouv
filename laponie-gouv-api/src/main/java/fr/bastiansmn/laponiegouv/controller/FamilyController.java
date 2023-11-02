@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,6 +50,17 @@ public class FamilyController {
     public ResponseEntity<Void> removeUser(@RequestParam Long id, @RequestBody User user) throws FunctionalException {
         familyService.removeUser(id, user);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/wish-draw")
+    public ResponseEntity<Map<?, ?>> drawWish(
+            @RequestParam Long id,
+            @RequestParam(required = false, defaultValue = "false") boolean genderFill,
+            @RequestBody(required = false) List<String> excludedEmails
+    ) throws FunctionalException {
+        if (excludedEmails == null)
+            excludedEmails = List.of();
+        return ResponseEntity.ok(familyService.drawWish(id, excludedEmails, genderFill));
     }
 
 }

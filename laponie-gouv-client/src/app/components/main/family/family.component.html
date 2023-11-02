@@ -3,7 +3,7 @@
     <h1>
       Listes des adultes :
     </h1>
-    <div (click)="selectUser(user)" *ngFor="let user of family?.users">
+    <div (click)="selectUser(user)" *ngFor="let user of getUserSorted">
       <button *ngIf="user.email !== currentUser?.email" mat-stroked-button color="primary">
         {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
       </button>

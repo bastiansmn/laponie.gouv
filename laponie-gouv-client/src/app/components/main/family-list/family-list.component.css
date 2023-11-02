@@ -1,0 +1,8 @@
+mat-list-item {
+  background: white;
+  border-radius: 5px;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  margin-bottom: .5rem;
+  height: unset !important;
+}

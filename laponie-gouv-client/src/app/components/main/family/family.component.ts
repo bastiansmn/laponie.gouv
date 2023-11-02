@@ -23,6 +23,9 @@ export class FamilyComponent implements OnInit {
   family!: Family;
   currentUser!: User | null;
   currentKid!: Kid | null;
+  get getUserSorted() {
+    return this.family.users.sort((a, b) => a.id - b.id);
+  }
 
   get connectedUser() {
     const user = localStorage.getItem('user');
