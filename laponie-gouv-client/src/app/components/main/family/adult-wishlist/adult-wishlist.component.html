@@ -9,7 +9,6 @@
 <mat-list role="list">
   <mat-list-item
     *ngFor="let wish of currentUser.wishes"
-    [matTooltip]="wish.gifted ? 'Cadeau offert' : 'Le cadeau n\'est toujours pas offert'"
   >
     <div class="wish">
       <h2 style="margin-bottom: 0;" *ngIf="wish.name" class="ellipsis">
