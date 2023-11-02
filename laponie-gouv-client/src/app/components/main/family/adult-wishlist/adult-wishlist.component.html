@@ -25,6 +25,12 @@
         {{ wish.comment }}
       </p>
 
+      <p>
+        <small *ngIf="wish.price !== undefined">
+          Prix : {{ wish.price }}€
+        </small>
+      </p>
+
       <mat-checkbox *ngIf="currentUser.email !== connectedUser?.email" disabled color="primary" style="margin-left: auto" [checked]="wish.gifted">
         <small class="ellipsis" *ngIf="wish.gifted">
           Offert par {{ wish.gifter }}
