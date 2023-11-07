@@ -19,7 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User createUser(UserCreationDto userCreationDto) throws FunctionalException {
-        if (userRepository.findByEmail(userCreationDto.email()).isPresent()) {
+        if (userRepository.findByEmailIgnoreCase(userCreationDto.email()).isPresent()) {
             throw new FunctionalException(FunctionalRule.USER_0002);
         }
 
@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public User getByMail(String mail) throws FunctionalException {
-        return userRepository.findByEmail(mail)
+        return userRepository.findByEmailIgnoreCase(mail)
                 .orElseThrow(() -> new FunctionalException(FunctionalRule.USER_0001));
     }
 

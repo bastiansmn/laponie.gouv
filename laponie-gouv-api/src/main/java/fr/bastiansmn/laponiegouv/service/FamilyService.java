@@ -46,7 +46,7 @@ public class FamilyService {
         Family family = new Family();
         family.setName(familyCreationDto.name());
 
-        User user = userRepository.findByEmail(familyCreationDto.email())
+        User user = userRepository.findByEmailIgnoreCase(familyCreationDto.email())
                 .orElseThrow(() -> new FunctionalException(FunctionalRule.USER_0001));
 
         family.setUsers(List.of(user));
@@ -57,7 +57,7 @@ public class FamilyService {
         Family family = familyRepository.findById(familyId)
                 .orElseThrow(() -> new FunctionalException(FunctionalRule.FAMILY_0001));
 
-        Optional<User> savedUser = userRepository.findByEmail(userEmail);
+        Optional<User> savedUser = userRepository.findByEmailIgnoreCase(userEmail);
         User user;
 
         if (savedUser.isEmpty()) {
