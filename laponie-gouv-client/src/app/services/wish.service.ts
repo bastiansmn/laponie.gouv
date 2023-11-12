@@ -26,4 +26,8 @@ export class WishService {
   deleteWish(wishID: number, userID?: number) {
     return this.http.delete<void>(`/api/wish?id=${wishID}&userID=${userID}`)
   }
+
+  editWish(wish: WishCreation, wishID: number) {
+    return this.http.put<Wish>(`/api/wish?id=${wishID}`, wish)
+  }
 }

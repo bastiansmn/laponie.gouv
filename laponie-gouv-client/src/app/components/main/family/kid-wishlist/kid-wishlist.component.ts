@@ -10,6 +10,7 @@ import {ConfirmModalComponent} from "../../../confirm-modal/confirm-modal.compon
 import {AddWishComponent} from "../add-wish/add-wish.component";
 import {Kid} from "../../../../model/kid.model";
 import {KidService} from "../../../../services/kid.service";
+import {AlertService} from "../../../../services/alert.service";
 
 @Component({
   selector: 'app-kid-wishlist',
@@ -31,6 +32,7 @@ export class KidWishlistComponent {
     private _loaderService: LoaderService,
     private _wishService: WishService,
     private _kidService: KidService,
+    private _alertService: AlertService
   ) { }
 
   handleSelect(wish: Wish) {
@@ -80,6 +82,32 @@ export class KidWishlistComponent {
           });
       });
 
+  }
+
+  handleEdit(wish: Wish) {
+    const dialogRef = this._dialog.open(AddWishComponent, {
+      width: '400px',
+      data: wish
+    });
+
+    dialogRef.afterClosed()
+      .pipe(take(1))
+      .subscribe(w1 => {
+        if (!w1) return;
+
+        this._loaderService.show();
+        this._wishService.editWish({ email: this.connectedUser?.email, ...w1 }, wish.id)
+          .pipe(take(1))
+          .subscribe(resWish => {
+            if (this.currentKid) {
+              this._alertService.show(
+                'Souhait modifié',
+                5000
+              )
+              this.currentKid.wishes = this.currentKid.wishes.map(w => w.id === resWish.id ? resWish : w);
+            }
+          })
+      })
   }
 
   openAddWishDialog() {

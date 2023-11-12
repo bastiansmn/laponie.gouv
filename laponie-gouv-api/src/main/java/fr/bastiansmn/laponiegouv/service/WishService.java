@@ -95,4 +95,17 @@ public class WishService {
         return wishRepository.save(wish);
     }
 
+    public Wish updateWish(WishCreationDto wishCreationDto, Long id) throws FunctionalException {
+        Wish wish = wishRepository.findById(id)
+                .orElseThrow(() -> new FunctionalException(
+                        FunctionalRule.WISH_0001
+                ));
+
+        wish.setName(wishCreationDto.name());
+        wish.setLink(wishCreationDto.link());
+        wish.setPrice(wishCreationDto.price());
+        wish.setComment(wishCreationDto.comment());
+
+        return wishRepository.save(wish);
+    }
 }

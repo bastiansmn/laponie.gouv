@@ -5,6 +5,7 @@ import fr.bastiansmn.laponiegouv.exception.FunctionalException;
 import fr.bastiansmn.laponiegouv.exception.TechnicalException;
 import fr.bastiansmn.laponiegouv.model.Wish;
 import fr.bastiansmn.laponiegouv.service.WishService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,11 @@ public class WishController {
     @PostMapping
     public ResponseEntity<Wish> createWish(@RequestBody WishCreationDto wishCreationDto) throws FunctionalException {
         return ResponseEntity.ok(wishService.createWish(wishCreationDto));
+    }
+
+    @PutMapping
+    public ResponseEntity<Wish> updateWish(@RequestBody WishCreationDto wishCreationDto, @RequestParam("id") Long id) throws FunctionalException {
+        return ResponseEntity.ok(wishService.updateWish(wishCreationDto, id));
     }
 
     @PatchMapping("/gifted")

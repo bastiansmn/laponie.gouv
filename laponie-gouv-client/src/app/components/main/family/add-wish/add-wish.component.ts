@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {markAllAsDirty} from "../../../../utils/form.utils";
-import {MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Wish} from "../../../../model/wish.model";
 
 @Component({
   selector: 'app-add-wish',
@@ -14,15 +15,16 @@ export class AddWishComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private _dialogRef: MatDialogRef<AddWishComponent>
+    private _dialogRef: MatDialogRef<AddWishComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Wish | null,
   ) { }
 
   ngOnInit(): void {
     this.wishForm = this._fb.group({
-      link: this._fb.control<string>("", [Validators.required]),
-      name: this._fb.control<string>(""),
-      price: this._fb.control<number | null>(null, [Validators.min(0)]),
-      comment: this._fb.control<string>("")
+      link: this._fb.control<string>(this.data?.link ?? '', [Validators.required]),
+      name: this._fb.control<string>(this.data?.name ?? ''),
+      price: this._fb.control<number | null>(this.data?.price ?? null, [Validators.min(0)]),
+      comment: this._fb.control<string>(this.data?.comment ?? '')
     })
   }
 

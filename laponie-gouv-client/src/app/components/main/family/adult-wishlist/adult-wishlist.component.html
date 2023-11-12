@@ -45,7 +45,11 @@
           Offrir ce cadeau
         </button>
 
-        <button style="margin-left: auto;" *ngIf="currentUser.email === connectedUser?.email" mat-icon-button color="warn" (click)="handleDelete(wish)">
+        <button style="margin-left: auto" *ngIf="currentUser.email === connectedUser?.email" mat-icon-button color="primary" (click)="handleEdit(wish)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button *ngIf="currentUser.email === connectedUser?.email" mat-icon-button color="warn" (click)="handleDelete(wish)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>

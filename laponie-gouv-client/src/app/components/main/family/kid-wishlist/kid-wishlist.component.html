@@ -45,6 +45,10 @@
           Offrir ce cadeau
         </button>
 
+        <button style="margin-left: auto" mat-icon-button color="primary" (click)="handleEdit(wish)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
         <button *ngIf="!wish.gifted" mat-icon-button color="warn" (click)="handleDelete(wish)">
           <mat-icon>delete</mat-icon>
         </button>

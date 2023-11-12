@@ -8,6 +8,7 @@ import {AddWishComponent} from "../add-wish/add-wish.component";
 import {MatDialog} from "@angular/material/dialog";
 import {LoaderService} from "../../../../services/loader.service";
 import {WishService} from "../../../../services/wish.service";
+import {AlertService} from "../../../../services/alert.service";
 
 @Component({
   selector: 'app-adult-wishlist',
@@ -28,6 +29,7 @@ export class AdultWishlistComponent {
     private _dialog: MatDialog,
     private _loaderService: LoaderService,
     private _wishService: WishService,
+    private _alertService: AlertService
   ) { }
 
   handleSelect(wish: Wish) {
@@ -77,6 +79,32 @@ export class AdultWishlistComponent {
           });
       });
 
+  }
+
+  handleEdit(wish: Wish) {
+    const dialogRef = this._dialog.open(AddWishComponent, {
+      width: '400px',
+      data: wish
+    });
+
+    dialogRef.afterClosed()
+      .pipe(take(1))
+      .subscribe(w1 => {
+        if (!w1) return;
+
+        this._loaderService.show();
+        this._wishService.editWish({ email: this.connectedUser?.email, ...w1 }, wish.id)
+          .pipe(take(1))
+          .subscribe(resWish => {
+            if (this.currentUser) {
+              this._alertService.show(
+                'Souhait modifié',
+                5000
+              )
+              this.currentUser.wishes = this.currentUser.wishes.map(w => w.id === resWish.id ? resWish : w);
+            }
+          })
+      })
   }
 
   openAddWishDialog() {

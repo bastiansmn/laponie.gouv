@@ -4,13 +4,11 @@ import {Family} from "../../../model/family.model";
 import {ActivatedRoute} from "@angular/router";
 import {Observable, take} from "rxjs";
 import {User} from "../../../model/user.model";
-import {WishService} from "../../../services/wish.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AddUserComponent} from "./add-user/add-user.component";
 import {AppService} from "../../../services/app.service";
 import {LoaderService} from "../../../services/loader.service";
 import {AddKidDialogComponent} from "./add-kid-dialog/add-kid-dialog.component";
-import {KidService} from "../../../services/kid.service";
 import {Kid} from "../../../model/kid.model";
 
 @Component({
