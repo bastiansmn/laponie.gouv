@@ -3,5 +3,5 @@ FROM alpine:3.19.1
 ARG APP_FILE
 EXPOSE 8080
 
-COPY target/${APP_FILE} /${APP_FILE}
-ENTRYPOINT ["/${APP_FILE}"]
+COPY target/laponie-gouv-api /laponie-gouv-api
+ENTRYPOINT ["/laponie-gouv-api"]
