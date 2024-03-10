@@ -18,13 +18,12 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Maven
-        run: mvn -Pnative clean native:compile
+        run: mvn -Pnative clean native:compile --file laponie-gouv-api/pom.xml
 #        run: mvn -B package --file laponie-gouv-api/pom.xml
 
       - name: Login and push to container registry
         run: |
           echo ${{ secrets.REGISTRY_PASS }} | docker login registry.bastian-somon.fr --username ${{ secrets.REGISTRY_USER }} --password-stdin 
-          docker build -t registry.bastian-somon.fr/laponie-gouv-backend:latest laponie-gouv-api
           docker build --build-arg APP_FILE=laponie-gouv-api -t registry.bastian-somon.fr/laponie-gouv-backend:latest laponie-gouv-api
           docker push registry.bastian-somon.fr/laponie-gouv-backend:latest
 
