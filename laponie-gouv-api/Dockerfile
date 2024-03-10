@@ -1,4 +1,7 @@
-FROM openjdk:21
-WORKDIR /app
-COPY target/*.jar app.jar
-CMD ["java", "-jar", "/app/app.jar"]
+FROM alpine:3.19.1
+
+ARG APP_FILE
+EXPOSE 8080
+
+COPY target/${APP_FILE} app
+ENTRYPOINT ["/app"]
