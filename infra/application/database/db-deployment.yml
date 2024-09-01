@@ -12,15 +12,6 @@ spec:
       labels:
         app: db
     spec:
-      # affinity:
-      #   nodeAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       nodeSelectorTerms:
-      #       - matchExpressions:
-      #         - key: workload
-      #           operator: In
-      #           values:
-      #           - application
       containers:
         - name: db
           image: postgres:15.2
@@ -35,9 +26,9 @@ spec:
               name: laponie-gouv-secret
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              subPath: data
+              subPath: laponie-gouv-db
               name: postgres-data
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
-            claimName: postgres-data-claim
+            claimName: laponie-gouv-pvc

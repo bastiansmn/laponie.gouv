@@ -1,26 +1,29 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: laponie-gouv-volume
+  name: laponie-gouv-pv
   labels:
     type: local
     app: db
 spec:
-  storageClassName: manual
+  storageClassName: nfs
+  persistentVolumeReclaimPolicy: Recycle
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
+    - ReadWriteMany
+  nfs:
+    server: 86.247.170.156
+    path: /mnt/nas/kube
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim # Create PVC
 metadata:
-  name: postgres-data-claim # Sets name of PV
+  name: laponie-gouv-pvc # Sets name of PV
 spec:
+  storageClassName: nfs
   accessModes:
-    - ReadWriteOnce # Sets read and write access
+    - ReadWriteMany # Sets read and write access
   resources:
     requests:
       storage: 1Gi # Sets volume size
