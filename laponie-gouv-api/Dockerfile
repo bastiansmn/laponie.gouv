@@ -4,4 +4,4 @@ ARG APP_FILE
 EXPOSE 8080
 
 COPY target/$APP_FILE app
-CMD ["./app"]
+CMD ["ls", "-lart", "/"]
