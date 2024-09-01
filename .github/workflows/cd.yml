@@ -18,6 +18,9 @@ jobs:
           distribution: 'graalvm-community'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check arch
+        run: uname -a
+
       - name: Build with Maven
         run: mvn -Pnative clean native:compile --file laponie-gouv-api/pom.xml
 #        run: mvn -B package --file laponie-gouv-api/pom.xml
