@@ -39,7 +39,7 @@ jobs:
       - name: Login and push to container registry
         run: |
           echo ${{ secrets.REGISTRY_PASS }} | docker login registry.bastian-somon.fr --username ${{ secrets.REGISTRY_USER }} --password-stdin 
-          docker build -t registry.bastian-somon.fr/laponie-gouv-frontend:latest laponie-gouv-client
+          docker build -t registry.bastian-somon.fr/laponie-gouv-frontend:latest --build-arg APP_FILE=laponie-gouv laponie-gouv-client
           docker push registry.bastian-somon.fr/laponie-gouv-frontend:latest
 
   deploy-infra:
