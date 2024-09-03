@@ -7,14 +7,13 @@ metadata:
     app: db
 spec:
   storageClassName: nfs
-  persistentVolumeReclaimPolicy: Recycle
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 86.247.170.156
     path: /mnt/nas/kube
+    server: 86.247.170.156
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim # Create PVC
