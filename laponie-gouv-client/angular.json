@@ -84,10 +84,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "laponie-gouv-client:build:production"
+              "buildTarget": "laponie-gouv-client:build:production"
             },
             "development": {
-              "browserTarget": "laponie-gouv-client:build:development"
+              "buildTarget": "laponie-gouv-client:build:development"
             }
           },
           "options": {
@@ -98,7 +98,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "laponie-gouv-client:build"
+            "buildTarget": "laponie-gouv-client:build"
           }
         },
         "test": {
