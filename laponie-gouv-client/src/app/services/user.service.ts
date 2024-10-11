@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {User, UserCreation} from "../model/user.model";
 import {Wish} from "../model/wish.model";
 

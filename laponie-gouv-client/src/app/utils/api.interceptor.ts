@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import {catchError, finalize, Observable, throwError} from "rxjs";
 import ApiError from "../model/api-error.model";
 import {AlertService} from "../services/alert.service";

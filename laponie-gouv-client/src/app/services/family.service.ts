@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Family, FamilyCreation} from "../model/family.model";
 import {User} from "../model/user.model";
 

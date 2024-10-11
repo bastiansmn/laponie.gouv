@@ -13,7 +13,7 @@ import {MainComponent} from './components/main/main.component';
 import {AuthComponent} from './components/auth/auth.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {FamilyListComponent} from './components/main/family-list/family-list.component';
 import {MatListModule} from "@angular/material/list";
 import {FamilyComponent} from './components/main/family/family.component';
@@ -33,50 +33,44 @@ import { AddKidDialogComponent } from './components/main/family/add-kid-dialog/a
 import { AdultWishlistComponent } from './components/main/family/adult-wishlist/adult-wishlist.component';
 import { KidWishlistComponent } from './components/main/family/kid-wishlist/kid-wishlist.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    MainComponent,
-    AuthComponent,
-    FamilyListComponent,
-    FamilyComponent,
-    MarkAsGiftedComponent,
-    AddUserComponent,
-    AddFamilyDialogComponent,
-    AddWishComponent,
-    ConfirmModalComponent,
-    AddKidDialogComponent,
-    AdultWishlistComponent,
-    KidWishlistComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    HttpClientModule,
-    MatListModule,
-    MatCheckboxModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatAutocompleteModule,
-    MatProgressBarModule,
-    MatSnackBarModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
-      multi: true,
-    },
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HeaderComponent,
+        MainComponent,
+        AuthComponent,
+        FamilyListComponent,
+        FamilyComponent,
+        MarkAsGiftedComponent,
+        AddUserComponent,
+        AddFamilyDialogComponent,
+        AddWishComponent,
+        ConfirmModalComponent,
+        AddKidDialogComponent,
+        AdultWishlistComponent,
+        KidWishlistComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatListModule,
+        MatCheckboxModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatAutocompleteModule,
+        MatProgressBarModule,
+        MatSnackBarModule], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ApiInterceptor,
+            multi: true,
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
 }
