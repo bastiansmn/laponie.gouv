@@ -2,11 +2,13 @@
 
 <app-main></app-main>
 
-<div *ngIf="isLoading | async" class="loader__background">
-  <div>
-    <h3>
-      Chargement...
-    </h3>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+@if (isLoading | async) {
+  <div class="loader__background">
+    <div>
+      <h3>
+        Chargement...
+      </h3>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
   </div>
-</div>
+}

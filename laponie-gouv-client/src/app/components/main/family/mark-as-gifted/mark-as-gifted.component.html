@@ -7,21 +7,29 @@
     Rappel des informations :
   </h4>
 
-  <p *ngIf="wish.name">
-    Nom : {{ wish.name }}
-  </p>
+  @if (wish.name) {
+    <p>
+      Nom : {{ wish.name }}
+    </p>
+  }
 
-  <p *ngIf="wish.comment">
-    Commentaire du cadeau : {{ wish.comment }}
-  </p>
+  @if (wish.comment) {
+    <p>
+      Commentaire du cadeau : {{ wish.comment }}
+    </p>
+  }
 
-  <p *ngIf="wish.link">
-    Lien : <a href="{{ wish.link }}" target="_blank">{{ wish.link }}</a>
-  </p>
+  @if (wish.link) {
+    <p>
+      Lien : <a href="{{ wish.link }}" target="_blank">{{ wish.link }}</a>
+    </p>
+  }
 
-  <p *ngIf="wish.price">
-    Prix : {{ wish.price }} €
-  </p>
+  @if (wish.price) {
+    <p>
+      Prix : {{ wish.price }} €
+    </p>
+  }
 
   <hr style="margin-block: 1rem;">
 
@@ -32,9 +40,11 @@
       <mat-hint>
         Ce nom sera visible pour les autres pères Noël (mais pas pour le destinataire du cadeau).
       </mat-hint>
-      <mat-error *ngIf="gifter.hasError('required')">
-        Le nom est obligatoire.
-      </mat-error>
+      @if (gifter.hasError('required')) {
+        <mat-error>
+          Le nom est obligatoire.
+        </mat-error>
+      }
     </mat-form-field>
 
   </form>

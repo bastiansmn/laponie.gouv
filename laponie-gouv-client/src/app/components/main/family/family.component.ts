@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FamilyService} from "../../../services/family.service";
 import {Family} from "../../../model/family.model";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Observable, take} from "rxjs";
 import {User} from "../../../model/user.model";
 import {MatDialog} from "@angular/material/dialog";
@@ -17,6 +17,9 @@ import {Kid} from "../../../model/kid.model";
   styleUrls: ['./family.component.css']
 })
 export class FamilyComponent implements OnInit {
+
+  readonly KID_QUERY_PARAM_NAME = 'kid';
+  readonly ADULT_QUERY_PARAM_NAME = 'adult';
 
   family!: Family;
   currentUser!: User | null;
@@ -40,6 +43,7 @@ export class FamilyComponent implements OnInit {
     private _loaderService: LoaderService,
     private _appService: AppService,
     private _activatedRoute: ActivatedRoute,
+    private _router: Router,
     private _dialog: MatDialog
   ) { }
 
@@ -55,6 +59,28 @@ export class FamilyComponent implements OnInit {
           .pipe(take(1))
           .subscribe(family => {
             this.family = family;
+            this._activatedRoute.queryParams
+              .pipe(take(1))
+              .subscribe(queryParams => {
+                const urlAdultMail = queryParams[this.ADULT_QUERY_PARAM_NAME] as string | undefined;
+                if (urlAdultMail) {
+                  const adultMail = decodeURIComponent(urlAdultMail);
+                  const adult = this.family.users.find(u => u.email === adultMail);
+                  if (adult) {
+                    this.selectUser(adult);
+                  }
+                  return;
+                }
+
+                const urlKidName = queryParams[this.KID_QUERY_PARAM_NAME] as string | undefined;
+                if (urlKidName) {
+                  const kidName = decodeURIComponent(urlKidName);
+                  const kid = this.family.kids.find(u => u.name === kidName);
+                  if (kid) {
+                    this.selectKid(kid);
+                  }
+                }
+              })
           })
       })
   }
@@ -63,12 +89,30 @@ export class FamilyComponent implements OnInit {
     this.currentUser = user;
     this.currentKid = null;
     this._appService.forceSidenav(false);
+    const queryParams: Params = { [this.ADULT_QUERY_PARAM_NAME]: encodeURIComponent(user.email) };
+
+    void this._router.navigate(
+      [],
+      {
+        relativeTo: this._activatedRoute,
+        queryParams
+      }
+    );
   }
 
   selectKid(kid: Kid) {
     this.currentKid = kid;
     this.currentUser = null;
     this._appService.forceSidenav(false);
+    const queryParams: Params = { [this.KID_QUERY_PARAM_NAME]: kid.name };
+
+    void this._router.navigate(
+      [],
+      {
+        relativeTo: this._activatedRoute,
+        queryParams
+      }
+    );
   }
 
   openAddUserDialog() {

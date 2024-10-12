@@ -1,9 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {LocalStorageService} from "./services/local-storage.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component} from '@angular/core';
 import {LoaderService} from "./services/loader.service";
-import {catchError, take} from "rxjs";
-import {UserService} from "./services/user.service";
 
 @Component({
   selector: 'app-root',

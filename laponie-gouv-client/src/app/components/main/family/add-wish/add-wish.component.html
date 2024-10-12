@@ -7,9 +7,11 @@
     <mat-label>Lien du cadeau</mat-label>
     <input matInput placeholder="Lien du cadeau" formControlName="link">
 
-    <mat-error *ngIf="wishForm.get('link')?.hasError('required')">
-      Lien du cadeau requis
-    </mat-error>
+    @if (wishForm.get('link')?.hasError('required')) {
+      <mat-error>
+        Lien du cadeau requis
+      </mat-error>
+    }
   </mat-form-field>
 
   <mat-form-field style="width: 100%;">
@@ -21,9 +23,11 @@
     <mat-label>Prix</mat-label>
     <input matInput type="number" min="0" step="any" formControlName="price" />
 
-    <mat-error *ngIf="wishForm.get('price')?.hasError('min')">
-      Le prix doit être positif
-    </mat-error>
+    @if (wishForm.get('price')?.hasError('min')) {
+      <mat-error>
+        Le prix doit être positif
+      </mat-error>
+    }
   </mat-form-field>
 
   <mat-form-field style="width: 100%;">

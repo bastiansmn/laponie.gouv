@@ -2,65 +2,74 @@
   Liste des cadeaux de {{ currentKid.name }}
 </h1>
 
-<div style="margin-bottom: 1rem;" *ngIf="currentKid.wishes?.length === 0">
-  {{ currentKid.name }} n'a pas encore envoyé sa liste au père Noël (ou les lutins sont en grève !)
-</div>
+@if (currentKid.wishes?.length === 0) {
+  <div style="margin-bottom: 1rem;">
+    {{ currentKid.name }} n'a pas encore envoyé sa liste au père Noël (ou les lutins sont en grève !)
+  </div>
+}
 
 <mat-list role="list">
-  <mat-list-item
-    *ngFor="let wish of currentKid.wishes"
-  >
-    <div class="wish">
-      <h2 style="margin-bottom: 0;" *ngIf="wish.name" class="ellipsis">
-        {{ wish.name }}
-      </h2>
+  @for (wish of currentKid.wishes; track wish) {
+    <mat-list-item
+      >
+      <div class="wish">
+        @if (wish.name) {
+          <h2 style="margin-bottom: 0;" class="ellipsis">
+            {{ wish.name }}
+          </h2>
+        }
+        <a class="ellipsis" target="_blank" [href]="wish.link">
+          {{ wish.link }}
+        </a>
+        <br>
+          @if (wish.comment) {
+            <p>
+              {{ wish.comment }}
+            </p>
+          }
+          @if (wish.price !== undefined) {
+            <p>
+              <small>
+                Prix : {{ wish.price }} €
+              </small>
+            </p>
+          }
+          <mat-checkbox disabled color="primary" style="margin-left: auto" [checked]="wish.gifted">
+            @if (wish.gifted) {
+              <small class="ellipsis">
+                Offert par {{ wish.gifter }}
+              </small>
+            }
+            @if (!wish.gifted) {
+              <small class="ellipsis">
+                Le cadeau n'est toujours pas offert
+              </small>
+            }
+          </mat-checkbox>
+          <div class="buttons">
+            @if (!wish.gifted) {
+              <button mat-flat-button color="primary" (click)="handleSelect(wish)">
+                Offrir ce cadeau
+              </button>
+            }
+            <button style="margin-left: auto" mat-icon-button color="primary" (click)="handleEdit(wish)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            @if (!wish.gifted) {
+              <button mat-icon-button color="warn" (click)="handleDelete(wish)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+        </div>
+      </mat-list-item>
+    }
+  </mat-list>
 
-      <a class="ellipsis" target="_blank" [href]="wish.link">
-        {{ wish.link }}
-      </a>
-
-      <br>
-
-      <p *ngIf="wish.comment">
-        {{ wish.comment }}
-      </p>
-
-      <p *ngIf="wish.price !== undefined">
-        <small>
-          Prix : {{ wish.price }} €
-        </small>
-      </p>
-
-      <mat-checkbox disabled color="primary" style="margin-left: auto" [checked]="wish.gifted">
-        <small class="ellipsis" *ngIf="wish.gifted">
-          Offert par {{ wish.gifter }}
-        </small>
-        <small class="ellipsis" *ngIf="!wish.gifted">
-          Le cadeau n'est toujours pas offert
-        </small>
-      </mat-checkbox>
-
-      <div class="buttons">
-        <button style="margin-left: auto;" *ngIf="!wish.gifted" mat-flat-button color="primary" (click)="handleSelect(wish)">
-          Offrir ce cadeau
-        </button>
-
-        <button style="margin-left: auto" mat-icon-button color="primary" (click)="handleEdit(wish)">
-          <mat-icon>edit</mat-icon>
-        </button>
-
-        <button *ngIf="!wish.gifted" mat-icon-button color="warn" (click)="handleDelete(wish)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+  <ng-container>
+    <div style="margin-top: 1rem">
+      <button matTooltip="Ajouter un cadeau" mat-stroked-button color="primary" (click)="openAddWishDialog()">
+        Ajouter un cadeau
+      </button>
     </div>
-  </mat-list-item>
-</mat-list>
-
-<ng-container>
-  <div style="margin-top: 1rem">
-    <button matTooltip="Ajouter un cadeau" mat-stroked-button color="primary" (click)="openAddWishDialog()">
-      Ajouter un cadeau
-    </button>
-  </div>
-</ng-container>
+  </ng-container>

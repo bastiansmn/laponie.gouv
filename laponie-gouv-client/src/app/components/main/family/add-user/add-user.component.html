@@ -5,9 +5,11 @@
   </mat-form-field>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleOptionSelected($event)">
-    <mat-option *ngFor="let user of suggestedUsers" [value]="user.email">
-      {{user.name}} - {{user.email}}
-    </mat-option>
+    @for (user of suggestedUsers; track user) {
+      <mat-option [value]="user.email">
+        {{user.name}} - {{user.email}}
+      </mat-option>
+    }
   </mat-autocomplete>
 
   <div class="buttons" style="display: flex; justify-content: flex-end">

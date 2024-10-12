@@ -10,13 +10,17 @@
         <input [errorStateMatcher]="matcher" matInput formControlName="email">
       </mat-form-field>
 
-      <mat-error *ngIf="authForm.get('email')?.hasError('required') && authForm.get('email')?.dirty">
-        Le mail est <strong>requis</strong>
-      </mat-error>
+      @if (authForm.get('email')?.hasError('required') && authForm.get('email')?.dirty) {
+        <mat-error>
+          Le mail est <strong>requis</strong>
+        </mat-error>
+      }
 
-      <mat-error *ngIf="authForm.get('email')?.hasError('email') && authForm.get('email')?.dirty">
-        Le mail n'est pas valide
-      </mat-error>
+      @if (authForm.get('email')?.hasError('email') && authForm.get('email')?.dirty) {
+        <mat-error>
+          Le mail n'est pas valide
+        </mat-error>
+      }
     </p>
 
     <p>
@@ -25,9 +29,11 @@
         <input [errorStateMatcher]="matcher" matInput formControlName="name">
       </mat-form-field>
 
-      <mat-error *ngIf="authForm.get('name')?.hasError('required') && authForm.get('name')?.dirty">
-        Le nom est <strong>requis</strong>
-      </mat-error>
+      @if (authForm.get('name')?.hasError('required') && authForm.get('name')?.dirty) {
+        <mat-error>
+          Le nom est <strong>requis</strong>
+        </mat-error>
+      }
     </p>
 
     <p>

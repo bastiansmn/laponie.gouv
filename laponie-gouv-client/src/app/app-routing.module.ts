@@ -14,13 +14,12 @@ const routes: Routes = [
   {
     path: 'home',
     component: FamilyListComponent,
-    canActivate: [
-      AuthGuard
-    ]
+    canActivate: [AuthGuard]
   },
   {
     path: 'family/:id',
-    component: FamilyComponent
+    component: FamilyComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'auth',

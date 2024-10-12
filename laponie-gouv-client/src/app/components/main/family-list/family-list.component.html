@@ -4,9 +4,11 @@
   </h1>
 
   <mat-selection-list>
-    <mat-list-item (click)="navigateTo('/family/' + family.id)" *ngFor="let family of families">
-      {{ family.name }}
-    </mat-list-item>
+    @for (family of families; track family) {
+      <mat-list-item (click)="navigateTo('/family/' + family.id)">
+        {{ family.name }}
+      </mat-list-item>
+    }
   </mat-selection-list>
 
   <button mat-raised-button color="primary" (click)="openAddFamilyDialog()">

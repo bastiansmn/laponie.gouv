@@ -3,14 +3,20 @@
     <h1>
       Listes des adultes :
     </h1>
-    <div (click)="selectUser(user)" *ngFor="let user of getUserSorted">
-      <button *ngIf="user.email !== currentUser?.email" mat-stroked-button color="primary">
-        {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
-      </button>
-      <button *ngIf="user.email === currentUser?.email" mat-flat-button color="primary">
-        {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
-      </button>
-    </div>
+    @for (user of getUserSorted; track user) {
+      <div (click)="selectUser(user)">
+        @if (user.email !== currentUser?.email) {
+          <button mat-stroked-button color="primary">
+            {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
+          </button>
+        }
+        @if (user.email === currentUser?.email) {
+          <button mat-flat-button color="primary">
+            {{ user.name }} {{ user.email === connectedUser?.email ? '(moi)' : '' }}
+          </button>
+        }
+      </div>
+    }
 
     <div>
       <button matTooltip="Ajouter un utilisateur" mat-button color="primary" (click)="openAddUserDialog()">
@@ -21,14 +27,20 @@
     <h1>
       Listes des enfants :
     </h1>
-    <div (click)="selectKid(kid)" *ngFor="let kid of family?.kids">
-      <button *ngIf="kid.id !== currentKid?.id" mat-stroked-button color="primary">
-        {{ kid.name }}
-      </button>
-      <button *ngIf="kid.id === currentKid?.id" mat-flat-button color="primary">
-        {{ kid.name }}
-      </button>
-    </div>
+    @for (kid of family?.kids; track kid) {
+      <div (click)="selectKid(kid)">
+        @if (kid.id !== currentKid?.id) {
+          <button mat-stroked-button color="primary">
+            {{ kid.name }}
+          </button>
+        }
+        @if (kid.id === currentKid?.id) {
+          <button mat-flat-button color="primary">
+            {{ kid.name }}
+          </button>
+        }
+      </div>
+    }
 
     <div>
       <button matTooltip="Ajouter un enfant" mat-button color="primary" (click)="openAddKidDialog()">
@@ -38,8 +50,12 @@
   </mat-sidenav>
   <mat-sidenav-content>
 
-    <app-adult-wishlist [currentUser]="currentUser" *ngIf="currentUser"></app-adult-wishlist>
-    <app-kid-wishlist [currentKid]="currentKid" *ngIf="currentKid"></app-kid-wishlist>
+    @if (currentUser) {
+      <app-adult-wishlist [currentUser]="currentUser"></app-adult-wishlist>
+    }
+    @if (currentKid) {
+      <app-kid-wishlist [currentKid]="currentKid"></app-kid-wishlist>
+    }
 
   </mat-sidenav-content>
 </mat-sidenav-container>

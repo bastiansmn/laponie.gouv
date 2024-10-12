@@ -4,9 +4,11 @@
       <mat-label>Nom</mat-label>
       <input matInput formControlName="name" [errorStateMatcher]="matcher">
 
-      <mat-error *ngIf="familyForm.get('name')?.hasError('required')">
-        Nom de la famille requis
-      </mat-error>
+      @if (familyForm.get('name')?.hasError('required')) {
+        <mat-error>
+          Nom de la famille requis
+        </mat-error>
+      }
     </mat-form-field>
   </form>
 
