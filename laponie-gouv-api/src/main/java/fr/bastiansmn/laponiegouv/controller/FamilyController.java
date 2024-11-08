@@ -1,6 +1,7 @@
 package fr.bastiansmn.laponiegouv.controller;
 
 import fr.bastiansmn.laponiegouv.dto.FamilyCreationDto;
+import fr.bastiansmn.laponiegouv.dto.WishDrawDto;
 import fr.bastiansmn.laponiegouv.exception.FunctionalException;
 import fr.bastiansmn.laponiegouv.exception.TechnicalException;
 import fr.bastiansmn.laponiegouv.model.Family;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,15 +55,36 @@ public class FamilyController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Lancer un tirage au sort et avertir les participants de ce tirage.
+     * @param id            ID de la famille où réaliser le tirage
+     * @param genderFill    True=les hommes (resp. femmes) ne tirent que des hommes (femmes)
+     * @param wishDrawDto   Objet contenant : la liste des personnes exclues du tirage + les paires non compatibles
+     * @return Le tirage associé
+     * @throws FunctionalException  Si le tirage n'a pas pu être réalisé
+     */
     @PostMapping("/wish-draw")
     public ResponseEntity<Map<?, ?>> drawWish(
             @RequestParam Long id,
             @RequestParam(required = false, defaultValue = "false") boolean genderFill,
-            @RequestBody(required = false) List<String> excludedEmails
+            @RequestBody(required = false) WishDrawDto wishDrawDto
     ) throws FunctionalException {
-        if (excludedEmails == null)
+        List<String> excludedEmails;
+        if (wishDrawDto.excludedEmails() == null) {
             excludedEmails = List.of();
-        return ResponseEntity.ok(familyService.drawWish(id, excludedEmails, genderFill));
+        } else {
+            excludedEmails = wishDrawDto.excludedEmails();
+        }
+        Map<String, Set<String>> incompatibleDraw;
+        if (wishDrawDto.incompatibleDraws() == null) {
+            incompatibleDraw = new HashMap<>();
+        } else {
+            incompatibleDraw = wishDrawDto.incompatibleDraws();
+        }
+
+        return ResponseEntity.ok(
+                familyService.drawWish(id, excludedEmails, incompatibleDraw, genderFill)
+        );
     }
 
 }

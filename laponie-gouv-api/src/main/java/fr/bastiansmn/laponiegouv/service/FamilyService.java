@@ -17,10 +17,7 @@ import org.thymeleaf.context.Context;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -111,18 +108,25 @@ public class FamilyService {
         familyRepository.save(family);
     }
 
-    public Map<?, ?> drawWish(Long id, List<String> exludedEmails, boolean genderFill) throws FunctionalException {
+    public Map<?, ?> drawWish(Long id, List<String> excludedEmails, Map<String, Set<String>> incompatibleDraw, boolean genderFill) throws FunctionalException {
         Family family = familyRepository.findById(id)
                 .orElseThrow(() -> new FunctionalException(FunctionalRule.FAMILY_0001));
 
         Map<User, Optional<User>> draw = family.getUsers()
                 .stream()
-                .filter(user -> !exludedEmails.contains(user.getEmail()))
+                .filter(user -> !excludedEmails.contains(user.getEmail()))
                 .collect(Collectors.toMap(user -> user, user -> Optional.empty()));
+
+        family.getDraw()
+                .forEach((k, v) -> {
+                    Set<String> emails = incompatibleDraw.getOrDefault(k, new HashSet<>());
+                    emails.add(v);
+                    incompatibleDraw.put(k, emails);
+                });
 
         // Tant que qqn n'a pas de cadeau à donner
         while (draw.values().stream().anyMatch(Optional::isEmpty)) {
-            // On chercher cette personne
+            // On cherche cette personne
             User giver = draw.keySet().stream().filter(k -> draw.get(k).isEmpty()).findAny()
                     .orElseThrow();
 
@@ -138,8 +142,39 @@ public class FamilyService {
                     .filter(k -> !genderFill || k.getSexe().equals(giver.getSexe()))
                     .toList();
 
-            int randomIndex = new Random().nextInt(allUnlinkedUsers.size());
-            User receiver = allUnlinkedUsers.get(randomIndex);
+            List<User> compatibleUnlinkedUsers = allUnlinkedUsers
+                    .stream()
+                    .filter(k -> {
+                        Set<String> incompatibleReceiver = incompatibleDraw.getOrDefault(giver.getEmail(), null);
+                        if (incompatibleReceiver != null) {
+                            return !incompatibleReceiver.contains(k.getEmail()); // Exclure les emails incompatibles.
+                        }
+                        return true; // Il n'y a pas d'incompatibilité pour cet utilisateur
+                    })
+                    .toList();
+
+            // Si allUnlinkedUsers est vide, c'est que le tirage est bloqué.
+            // Il faut supprimer un tirage où receiver!=current && receiver n'est pas incompatible
+            Random random = new Random();
+            if (compatibleUnlinkedUsers.isEmpty()) {
+                for (Map.Entry<User, Optional<User>> entry : draw.entrySet()) {
+                    Optional<User> receiver = entry.getValue();
+                    Set<String> incompatibleReceiver = incompatibleDraw.getOrDefault(giver.getEmail(), Set.of());
+                    if (
+                            receiver.isPresent()
+                        && !receiver.get().equals(giver)
+                        && !incompatibleReceiver.contains(receiver.get().getEmail())
+                    ) {
+                        draw.remove(entry.getKey());
+                        break;
+                    }
+                }
+
+                continue;
+            }
+
+            int randomIndex = random.nextInt(compatibleUnlinkedUsers.size());
+            User receiver = compatibleUnlinkedUsers.get(randomIndex);
 
             draw.put(giver, Optional.of(receiver));
         }
@@ -177,7 +212,7 @@ public class FamilyService {
         Map<String, String> emailMap = draw.entrySet().stream()
                 .collect(Collectors.toMap(userOptionalEntry -> userOptionalEntry.getKey().getEmail(), entry -> entry.getValue().get().getEmail()));
 
-        family.setDraw(emailMap.toString());
+        family.setDraw(emailMap);
         familyRepository.save(family);
 
         return emailMap;
