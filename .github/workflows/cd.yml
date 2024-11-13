@@ -29,7 +29,7 @@ jobs:
         run: |
           ls -lart laponie-gouv-api/target
           echo ${{ secrets.REGISTRY_PASS }} | docker login registry.bastian-somon.fr --username ${{ secrets.REGISTRY_USER }} --password-stdin 
-          docker buildx build -t registry.bastian-somon.fr/laponie-gouv-backend:latest laponie-gouv-api -f Dockerfile.jvm
+          docker buildx build -t registry.bastian-somon.fr/laponie-gouv-backend:latest laponie-gouv-api -f laponie-gouv-api/Dockerfile.jvm
           docker push registry.bastian-somon.fr/laponie-gouv-backend:latest
 
   build-client:
