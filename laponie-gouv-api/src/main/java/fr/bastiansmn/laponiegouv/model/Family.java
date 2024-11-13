@@ -1,6 +1,6 @@
 package fr.bastiansmn.laponiegouv.model;
 
-import io.hypersistence.utils.hibernate.type.json.JsonType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Type;
@@ -35,8 +35,8 @@ public class Family {
     )
     private List<Kid> kids;
 
-    @Column(name = "draw", columnDefinition = "jsonb")
-    @Type(JsonType.class)
+    @Type(JsonBinaryType.class)
+    @Column(columnDefinition = "jsonb")
     private Map<String, String> draw;
 
 }

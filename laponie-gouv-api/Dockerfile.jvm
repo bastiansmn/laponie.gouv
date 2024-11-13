@@ -1,0 +1,7 @@
+FROM bitnami/java:21-debian-12
+
+WORKDIR /app
+COPY target/*.jar app.jar
+
+ENTRYPOINT ["java", "-jar"]
+CMD ["app.jar"]
