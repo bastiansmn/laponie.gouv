@@ -1,4 +1,4 @@
-FROM bitnami/java:21-debian-12
+FROM openjdk:21-ea-jdk-oracle
 
 WORKDIR /app
 COPY target/*.jar app.jar
