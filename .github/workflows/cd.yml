@@ -27,7 +27,6 @@ jobs:
 
       - name: Login and push to container registry
         run: |
-          ls -lart laponie-gouv-api/target
           echo ${{ secrets.REGISTRY_PASS }} | docker login registry.bastian-somon.fr --username ${{ secrets.REGISTRY_USER }} --password-stdin 
           docker build -t registry.bastian-somon.fr/laponie-gouv-backend:latest laponie-gouv-api -f laponie-gouv-api/Dockerfile.jvm
           docker push registry.bastian-somon.fr/laponie-gouv-backend:latest
