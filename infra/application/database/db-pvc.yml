@@ -6,23 +6,30 @@ metadata:
     type: local
     app: db
 spec:
-  storageClassName: nfs
+  storageClassName: local-path
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteMany
-  nfs:
+    - ReadWriteOnce
+  local:
     path: /mnt/nas/kube
-    server: 86.247.170.156
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - bastian-somon
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim # Create PVC
 metadata:
   name: laponie-gouv-pvc # Sets name of PV
 spec:
-  storageClassName: nfs
+  storageClassName: local-path
   accessModes:
-    - ReadWriteMany # Sets read and write access
+    - ReadWriteOnce # Sets read and write access
   resources:
     requests:
       storage: 1Gi # Sets volume size
